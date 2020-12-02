@@ -4,7 +4,7 @@ const loginRoute = require("./routes/login.route");
 const { body } = require("express-validator");
 
 const app = express();
-const port = 8080;
+const port = 8000;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
