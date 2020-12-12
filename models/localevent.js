@@ -24,6 +24,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'LocalEvent',
+    timestamps: true,
+    paranoid: true,
   });
   return LocalEvent;
 };

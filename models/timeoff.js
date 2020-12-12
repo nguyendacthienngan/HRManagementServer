@@ -15,17 +15,19 @@ module.exports = (sequelize, DataTypes) => {
       });
       TimeOff.belongsTo(models.LeaveType,{
         foreignKey: 'leave_id',
-        as: 'leave_type'
+        //as: 'leave_type'
       });
     }
   };
   TimeOff.init({
     local_event_id: DataTypes.INTEGER,
     leave_type: DataTypes.INTEGER,
-    leave_hours: DataTypes.DOUBLE
+    day_off: DataTypes.DOUBLE
   }, {
     sequelize,
     modelName: 'TimeOff',
+    timestamps: true,
+    paranoid: true,
   });
   return TimeOff;
 };

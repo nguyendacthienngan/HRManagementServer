@@ -37,7 +37,7 @@ module.exports = {
       gender: {
         type: Sequelize.INTEGER
       },
-      test_result: {
+      candidate_state: {
         type: Sequelize.INTEGER
       },
       email: {
@@ -53,6 +53,9 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
+      },
+      deletedAt: {
+        type: Sequelize.DATE,
       }
     });
   },

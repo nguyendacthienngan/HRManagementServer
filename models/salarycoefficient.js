@@ -21,6 +21,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'SalaryCoefficient',
+    timestamps: true,
+    paranoid: true,
   });
   return SalaryCoefficient;
 };

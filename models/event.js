@@ -21,6 +21,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Event',
+    timestamps: true,
+    paranoid: true,
   });
   return Event;
 };

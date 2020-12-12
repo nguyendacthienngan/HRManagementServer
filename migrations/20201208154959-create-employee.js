@@ -10,7 +10,14 @@ module.exports = {
       },
       manager_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
+        references:{
+          model: 'Employees',
+          key: 'employee_id',
+          as: 'manager_id',
+          allowNull: true,
+        },
+        onDelete: 'SET NULL'
       },
       first_name: {
         type: Sequelize.STRING,
@@ -52,7 +59,7 @@ module.exports = {
         type: Sequelize.DATE
       },
       gender: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       marital_status: {
         type: Sequelize.INTEGER
@@ -61,7 +68,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       email: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       phone_contact_id: {
         type: Sequelize.INTEGER,

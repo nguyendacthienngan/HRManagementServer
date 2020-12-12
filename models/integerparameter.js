@@ -19,6 +19,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'IntegerParameter',
+    timestamps: true,
+    paranoid: true,
   });
   return IntegerParameter;
 };

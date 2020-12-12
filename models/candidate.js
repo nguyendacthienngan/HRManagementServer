@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Candidate.belongsTo(models.JobTitle,{
         foreignKey: 'title_id',
-        as:'position'
+        //as:'position'
       });
       Candidate.belongsToMany(models.Interview, { 
         through: 'Re_Interview_Candidate', 
@@ -28,12 +28,14 @@ module.exports = (sequelize, DataTypes) => {
     position: DataTypes.INTEGER,
     birth_date: DataTypes.DATE,
     gender: DataTypes.INTEGER,
-    test_result: DataTypes.INTEGER,
+    candidate_state: DataTypes.INTEGER,
     email: DataTypes.STRING,
     phone_no: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'Candidate',
+    timestamps: true,
+    paranoid: true,
   });
   return Candidate;
 };

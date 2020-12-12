@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       PublicEvent.belongsTo(models.Event,{
         foreignKey: 'event_id',
-        as:'event_info_id'
+        //as:'event_info_id'
       });
     }
   };
@@ -21,6 +21,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'PublicEvent',
+    timestamps: true,
+    paranoid: true,
   });
   return PublicEvent;
 };

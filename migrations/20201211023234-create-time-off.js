@@ -29,7 +29,7 @@ module.exports = {
         },
         onDelete: 'SET NULL'
       },
-      leave_hours: {
+      day_off: {
         type: Sequelize.DOUBLE
       },
       createdAt: {
@@ -39,6 +39,9 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
+      },
+      deletedAt: {
+        type: Sequelize.DATE,
       }
     });
   },

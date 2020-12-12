@@ -19,6 +19,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'DecimalParameter',
+    timestamps: true,
+    paranoid: true,
   });
   return DecimalParameter;
 };

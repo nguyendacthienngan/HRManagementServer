@@ -19,6 +19,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'StringParameter',
+    timestamps: true,
+    paranoid: true,
   });
   return StringParameter;
 };

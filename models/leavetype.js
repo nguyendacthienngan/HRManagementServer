@@ -18,6 +18,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'LeaveType',
+    timestamps: true,
+    paranoid: true,
   });
   return LeaveType;
 };
