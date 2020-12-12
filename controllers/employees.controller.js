@@ -1,10 +1,13 @@
 const db = require("../models");
 const sequelize = require("sequelize");
-const User = db.User;
-const Account = db.Account;
+const User = db.Employee;
 
 module.exports.getAllUsers = (req, res, next) => {
-    User.findAll()
+    User.findAll(
+      {
+        attributes: ["employee_id", "manager_id", "first_name", "last_name", "national_id"],
+      }
+    )
         .then((users) => {
           res.status(200).json(users);
         })
