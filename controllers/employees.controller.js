@@ -1,6 +1,7 @@
 const db = require("../models");
 const sequelize = require("sequelize");
 const User = db.Employee;
+const http = require("../utils/http-status");
 
 module.exports.getAllUsers = (req, res, next) => {
     User.findAll(
@@ -9,10 +10,10 @@ module.exports.getAllUsers = (req, res, next) => {
       }
     )
         .then((users) => {
-          res.status(200).json(users);
+          res.status(http.OK).json(users);
         })
         .catch((err) => {
-          if (!err.status) err.statusCode = 500;
+          if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
           next(err);
         });
 }
