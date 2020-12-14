@@ -6,15 +6,21 @@ const Sequelize = require('sequelize');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.json')[env];
+const devConfig = require(__dirname + '/../config/dev.config.json')[env];
 const db = {};
 
 let sequelize;
-if (config.use_env_variable) {
+if (env != 'development') {
   sequelize = new Sequelize(process.env[config.use_env_variable], config);
 } else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
+  sequelize = new Sequelize(devConfig.database, devConfig.username, devConfig.password, devConfig);
 }
 
+// if (config.use_env_variable) {
+//   sequelize = new Sequelize(process.env[config.use_env_variable], config);
+// } else {
+//   sequelize = new Sequelize(config.database, config.username, config.password, config);
+// }
 fs
   .readdirSync(__dirname)
   .filter(file => {
