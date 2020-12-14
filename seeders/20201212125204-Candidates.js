@@ -10,7 +10,7 @@ module.exports = {
         position: 3,
         birth_date: new Date(2020, 4, 21),
         gender: 1,
-        candidate_state: 0, 
+        candidate_state: 1, 
         email: 'ngan@gmail.com',
         phone_no: '0123456789',
         createdAt: new Date(),

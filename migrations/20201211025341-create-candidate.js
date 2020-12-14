@@ -37,7 +37,14 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       candidate_state: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references:{
+          model: 'CandidateStatuses',
+          key: 'id',
+          allowNull: false,
+        },
+        onDelete: 'SET NULL'
       },
       email: {
         type: Sequelize.STRING

@@ -18,6 +18,9 @@ module.exports = (sequelize, DataTypes) => {
         through: 'Re_Interview_Candidate', 
         foreignKey: 'candidate_id', 
       });
+      Candidate.belongsTo(models.CandidateStatus,{
+        foreignKey: 'candidate_status',
+      });
     }
   };
   Candidate.init({
