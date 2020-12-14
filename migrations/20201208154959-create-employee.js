@@ -2,7 +2,7 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('Employees', {
-      employee_id: {
+      id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
@@ -13,7 +13,7 @@ module.exports = {
         allowNull: true,
         references:{
           model: 'Employees',
-          key: 'employee_id',
+          key: 'id',
           as: 'manager_id',
           allowNull: true,
         },
@@ -40,7 +40,7 @@ module.exports = {
         allowNull: false,
         references:{
           model: 'JobTitles',
-          key: 'title_id',
+          key: 'id',
           allowNull: false,
         },
         onDelete: 'SET NULL'
@@ -50,7 +50,7 @@ module.exports = {
         allowNull: false,
         references:{
           model: 'SalaryCoefficients',
-          key: 'coefficient_id',
+          key: 'id',
           allowNull: false
         },
         onDelete: 'SET NULL'
@@ -75,7 +75,7 @@ module.exports = {
         allowNull: false,
         references:{
           model: 'PhoneNumbers',
-          key: 'phone_no_id',
+          key: 'id',
           allowNull: false
         },
         onDelete: 'SET NULL'

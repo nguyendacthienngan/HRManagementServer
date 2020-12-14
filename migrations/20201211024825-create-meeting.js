@@ -2,7 +2,7 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('Meetings', {
-      meeting_id: {
+      id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
@@ -13,7 +13,7 @@ module.exports = {
         allowNull: false,
         references:{
           model: 'LocalEvents',
-          key: 'local_event_id',
+          key: 'id',
           allowNull: false,
         },
         onDelete: 'SET NULL'
@@ -23,7 +23,7 @@ module.exports = {
         allowNull: false,
         references:{
           model: 'Rooms',
-          key: 'room_id',
+          key: 'id',
           allowNull: false,
         },
         onDelete: 'SET NULL'

@@ -2,7 +2,7 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('DecimalParameters', {
-      param_id: {
+      id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,

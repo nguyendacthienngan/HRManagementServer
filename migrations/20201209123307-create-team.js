@@ -2,7 +2,7 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('Teams', {
-      team_id: {
+      id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
@@ -16,7 +16,7 @@ module.exports = {
         allowNull: false,
         references:{
           model: 'Managers',
-          key: 'manager_id',
+          key: 'id',
           allowNull: false,
         },
         onDelete: 'SET NULL'
