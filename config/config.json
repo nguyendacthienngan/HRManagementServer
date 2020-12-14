@@ -1,15 +1,15 @@
 {
   "development": {
-    "username": "Scorpio",
-    "password": "11112000",
+    "username": "postgres",
+    "password": "1505",
     "database": "HumanResourceDB",
     "host": "127.0.0.1",
     "dialect": "postgres",
     "operatorsAliases": false
   },
   "test": {
-    "username": "Scorpio",
-    "password": "11112000",
+    "username": "postgres",
+    "password": "1505",
     "database": "HumanResourceDB_test",
     "host": "127.0.0.1",
     "dialect": "postgres",
