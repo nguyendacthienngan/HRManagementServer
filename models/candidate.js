@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'candidate_id', 
       });
       Candidate.belongsTo(models.CandidateStatus,{
-        foreignKey: 'candidate_status',
+        foreignKey: 'candidate_state',
       });
     }
   };

@@ -11,11 +11,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       LocalEvent.belongsTo(models.Event,{
-        foreignKey: 'event_id',
+        foreignKey: 'event_info_id',
       });
       LocalEvent.belongsToMany(models.Employee, { 
         through: 'Re_Employee_LocalEvent', 
-        foreignKey: 'employee_id', 
+        foreignKey: 'local_event_id', 
       });
     }
   };

@@ -14,7 +14,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   PhoneNumber.init({
-    emergency_call: DataTypes.STRING
+    emergency_call: DataTypes.STRING,
+    personal_call:  DataTypes.STRING
   }, {
     sequelize,
     modelName: 'PhoneNumber',

@@ -27,7 +27,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Interview.init({
-    public_event_id: DataTypes.INTEGER
+    public_event_id: DataTypes.INTEGER,
+    room_id: DataTypes.INTEGER,
   }, {
     sequelize,
     modelName: 'Interview',

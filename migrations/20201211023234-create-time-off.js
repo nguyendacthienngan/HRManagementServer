@@ -30,7 +30,7 @@ module.exports = {
         onDelete: 'SET NULL'
       },
       day_off: {
-        type: Sequelize.DOUBLE
+        type: Sequelize.DECIMAL
       },
       createdAt: {
         allowNull: false,

@@ -6,7 +6,7 @@ const http = require("../utils/http-status");
 module.exports.getAll = (req, res, next) => {
   Employee.findAll(
     {
-      attributes: ["employee_id", "manager_id", "first_name", "last_name", "national_id"],
+      attributes: ["id", "manager_id", "first_name", "last_name", "national_id"],
     }
   )
     .then((users) => {
@@ -21,13 +21,13 @@ module.exports.getAll = (req, res, next) => {
 module.exports.getEmployee = (req, res, next) => {
   Employee.findOne({
     attributes: [
-      "employee_id", "manager_id", "first_name", "last_name", "national_id",
+      "id", "manager_id", "first_name", "last_name", "national_id",
       "employ_type", "job_title_id", "salary_coefficient_id",
       "birth_date", "gender", "marital_status", "address", "email",
       "phone_contact_id"
     ],
     where: {
-      employee_id: req.params.id
+      id: req.params.id
     }
   })
     .then((employee) => {

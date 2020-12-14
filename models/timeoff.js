@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'local_event_id',
       });
       TimeOff.belongsTo(models.LeaveType,{
-        foreignKey: 'leave_id',
+        foreignKey: 'leave_type',
         //as: 'leave_type'
       });
     }
@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
   TimeOff.init({
     local_event_id: DataTypes.INTEGER,
     leave_type: DataTypes.INTEGER,
-    day_off: DataTypes.DOUBLE
+    day_off: DataTypes.DECIMAL
   }, {
     sequelize,
     modelName: 'TimeOff',

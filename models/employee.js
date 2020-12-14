@@ -11,10 +11,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Employee.belongsTo(models.JobTitle,{
-        foreignKey: 'title_id',
+        foreignKey: 'job_title_id',
       });
       Employee.belongsTo(models.PhoneNumber,{
-        foreignKey: 'phone_no_id',
+        foreignKey: 'phone_contact_id',
       });
       Employee.belongsToMany(models.Benefit, { 
         through: 'Re_Employee_Benefit', 
