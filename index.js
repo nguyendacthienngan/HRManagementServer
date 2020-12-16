@@ -17,10 +17,10 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
 
-app.use("/login", loginRoute);
-app.use(api.objects.employee, employeesRoute);
-app.use(api.objects.jobTitle, jobtitlesRoute);
-app.use(api.objects.phoneNumber, phoneNumberRoute);
+app.use(api.version + "/login", loginRoute);
+app.use(api.version + api.objects.employee, employeesRoute);
+app.use(api.version + api.objects.jobTitle, jobtitlesRoute);
+app.use(api.version + api.objects.phoneNumber, phoneNumberRoute);
 
 app.get("/", function(req,res) {
     res.send("Welcome to this api");

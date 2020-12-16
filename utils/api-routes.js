@@ -1,5 +1,7 @@
 const apiRoutes = 
 {
+    version:            "/v1",
+
     objects:
     {
         employee:       "/employees",
