@@ -5,6 +5,7 @@ const cors = require('cors')
 const loginRoute = require("./routes/login.route");
 const employeesRoute = require("./routes/employees.route");
 const jobtitlesRoute = require("./routes/jobtitles.route");
+const phoneNumberRoute = require("./routes/phonenumber.route");
 
 // Import utils
 const { body } = require("express-validator");
@@ -19,6 +20,7 @@ app.use(bodyParser.urlencoded({ extended: true}));
 app.use("/login", loginRoute);
 app.use(api.objects.employee, employeesRoute);
 app.use(api.objects.jobTitle, jobtitlesRoute);
+app.use(api.objects.phoneNumber, phoneNumberRoute);
 
 app.get("/", function(req,res) {
     res.send("Welcome to this api");
