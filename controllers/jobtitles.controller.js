@@ -6,7 +6,7 @@ const http = require("../utils/http-status");
 module.exports.getAll = (req, res, next) => {
   JobTitle.findAll(
     {
-      attributes: ["title_id", "title_name"]
+      attributes: ["id", "title_name"]
     }
   )
     .then((titles) => {
@@ -32,15 +32,25 @@ module.exports.createJobTitle = (req, res, next) => {
 }
 
 module.exports.updateJobTitle = (req, res, next) => {
-  JobTitle.update(
-    { title_name: req.body.title_name },
-    { where: { title_id: req.body.title_id } }
-  )
-    .then(updatedJt => {
-      if (!updatedJt) {
+  JobTitle.findOne({
+    attributes: ["id"],
+    where: { id: req.body.title_id }
+  })
+    .then(jt => {
+      if (!jt) {
         return res.status(http.NOTFOUND).json("Title does not exist!");
       }
-      res.status(http.OK).json(updatedJt);
+
+      jt.update(
+        { title_name: req.body.title_name }
+      )
+        .then(updatedJt => {
+          res.status(http.OK).json(updatedJt);
+        })
+        .catch(err => {
+          if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
+          next(err);
+        })
     })
     .catch(err => {
       if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
@@ -50,10 +60,13 @@ module.exports.updateJobTitle = (req, res, next) => {
 
 module.exports.getJobTitle = (req, res, next) => {
   JobTitle.findOne({
-    attributes: ["title_id", "title_name"],
-    where: { title_id: req.params.id }
+    attributes: ["id", "title_name"],
+    where: { id: req.params.id }
   })
     .then(jt => {
+      if (!jt) {
+        return res.status(http.NOTFOUND).json("Title does not exist!");
+      }
       res.status(http.OK).json(jt);
     })
     .catch(err => {
@@ -64,7 +77,7 @@ module.exports.getJobTitle = (req, res, next) => {
 
 module.exports.deleteJobTitle = (req, res, next) => {
   JobTitle.destroy({
-    where: { title_id: req.body.title_id }
+    where: { id: req.params.id }
   })
     .then(deletedJt => {
       res.status(http.OK).json(deletedJt);

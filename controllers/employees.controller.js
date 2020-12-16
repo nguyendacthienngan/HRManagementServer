@@ -31,6 +31,9 @@ module.exports.getEmployee = (req, res, next) => {
     }
   })
     .then((employee) => {
+      if (!employee) {
+        return res.status(http.NOTFOUND).json("Employee does not exist!");
+      }
       res.status(http.OK).json(employee);
     })
     .catch((err) => {
@@ -95,59 +98,49 @@ module.exports.updateEmployee = (req, res, next) => {
   const contact = req.body.contact_id;
 
   Employee.findOne({
-    where: {
-      employee_id: employeeId
-    }
-  })
-    .then((employee) => {
-      if (employee) {
-        employee.update({
-          manager_id: managerId,
-          first_name: firstName,
-          last_name: lastName,
-          national_id: nationalId,
-          employ_type: employType,
-          job_title_id: jobTitleId,
-          salary_coefficient_id: salaryCoeffId,
-          birth_date: birthDate,
-          gender: gender,
-          marital_status: marital,
-          address: address,
-          email: email,
-          phone_contact_id: contact
-        })
-          .then((employee) => {
-            res.status(http.OK).json(employee);
-          })
-          .catch((err) => {
-            if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
-            next(err);
-          });
-      }
-      else {
-        res.status(http.NOTFOUND).json("Employee does not exist!");
-      }
-    })
-    .catch((err) => {
-      if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
-      next(err);
-    })
-}
-
-module.exports.deleteEmployee = (req, res, next) => {
-  Employee.findOne({
-    attributes: ["employee_id"],
-    where: { employee_id: req.body.employee_id }
+    attributes: ["id"],
+    where: { id: employeeId }
   })
     .then(employee => {
       if (!employee) {
         return res.status(http.NOTFOUND).json("Employee does not exist!");
       }
 
-      return employee.destroy();
+      employee.update({
+        manager_id: managerId,
+        first_name: firstName,
+        last_name: lastName,
+        national_id: nationalId,
+        employ_type: employType,
+        job_title_id: jobTitleId,
+        salary_coefficient_id: salaryCoeffId,
+        birth_date: birthDate,
+        gender: gender,
+        marital_status: marital,
+        address: address,
+        email: email,
+        phone_contact_id: contact
+      })
+        .then(updated => {
+          res.status(http.OK).json(updated);
+        })
+        .catch((err) => {
+          if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
+          next(err);
+        });
     })
-    .then(deletedEmployee => {
-      res.status(http.OK).json(deletedEmployee);
+    .catch((err) => {
+      if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
+      next(err);
+    });
+}
+
+module.exports.deleteEmployee = (req, res, next) => {
+  Employee.destroy({
+    where: { id: req.params.id }
+  })
+    .then(deleted => {
+      res.status(http.OK).json(deleted);
     })
     .catch(err => {
       if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;

@@ -1,7 +1,7 @@
 {
   "development": {
-    "username": "postgres",
-    "password": "1505",
+    "username": "Scorpio",
+    "password": "11112000",
     "database": "HumanResourceDB",
     "host": "127.0.0.1",
     "dialect": "postgres",

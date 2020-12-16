@@ -10,6 +10,6 @@ router.post(api.actions.create, titleController.createJobTitle);
 
 router.put(api.actions.update, titleController.updateJobTitle);
 
-router.delete(api.actions.delete, titleController.deleteJobTitle);
+router.delete(api.actions.delete + "/:id", titleController.deleteJobTitle);
 
 module.exports = router;

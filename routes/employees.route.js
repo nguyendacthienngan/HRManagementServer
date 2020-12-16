@@ -10,6 +10,6 @@ router.post(api.actions.create, userController.createEmployee);
 
 router.put(api.actions.update, userController.updateEmployee);
 
-router.delete(api.actions.delete, userController.deleteEmployee);
+router.delete(api.actions.delete + "/:id", userController.deleteEmployee);
 
 module.exports = router;
