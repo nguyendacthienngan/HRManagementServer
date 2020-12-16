@@ -5,14 +5,7 @@
     "database": "HumanResourceDB",
     "host": "127.0.0.1",
     "dialect": "postgres",
-    "operatorsAliases": false,
-    "ssl": true,
-    "dialectOptions": {
-      "ssl": {
-        "require": true,
-        "rejectUnauthorized": false 
-      }
-    }
+    "operatorsAliases": false
   },
   "test": {
     "username": "postgres",
@@ -20,14 +13,7 @@
     "database": "HumanResourceDB_test",
     "host": "127.0.0.1",
     "dialect": "postgres",
-    "operatorsAliases": false,
-    "ssl": true,
-    "dialectOptions": {
-      "ssl": {
-        "require": true,
-        "rejectUnauthorized": false 
-      }
-    }
+    "operatorsAliases": false
   },
   "production": {
       "username": "postgres",
