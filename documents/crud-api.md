@@ -38,6 +38,11 @@ POST/v1/employees/add
 
 </details>
 
+Return codes: 
+* 201: Created
+* 500: Internal Server Error (unexpected error)
+* Created content
+
 ### Update
 PUT/v1/employees/update
 
@@ -65,8 +70,62 @@ PUT/v1/employees/update
 
 </details>
 
+Return codes:
+* 200: OK
+* 404: Not Found
+* 500: Internal Server Error (unexpected error)
+* Updated content
+
 ### Read: individual
 GET/v1/employees/:id
 
 ### Read: entire
 GET/v1/employees/
+
+## Job Title
+### Create
+POST/v1/jobtitles/add
+
+<details>
+  <summary>Body JSON</summary>
+  
+```
+{
+  "title_name": string
+}
+```
+
+Return codes:
+* 201: Created
+* 500: Internal Server Error (unexpected error)
+* Created content
+
+</details>
+
+### Update
+PUT/v1/jobtitles/update
+
+<details>
+  <summary>Body JSON</summary>
+  
+```
+{
+  "title_id": int,
+  "title_name": string
+}
+```
+
+</details>
+
+Return codes:
+* 200: OK
+* 404: Not Found
+* 500: Internal Server Error (unexpected error)
+* Updated content
+
+### Read: individual
+GET/v1/jobtitles/:id
+
+### Read: entire
+GET/v1/jobtitles/
+
