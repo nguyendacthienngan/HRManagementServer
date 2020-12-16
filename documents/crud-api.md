@@ -15,7 +15,9 @@ API version: v1
 ### Create
 POST/v1/employees/add
 
-Body JSON:
+<details>
+  <summary>Body JSON</summary>
+  
 ```
 {
   "manager_id": int,
@@ -34,10 +36,14 @@ Body JSON:
 }
 ```
 
+</details>
+
 ### Update
 PUT/v1/employees/update
 
-Body JSON:
+<details>
+  <summary>Body JSON</summary>
+  
 ```
 {
   "employee_id": int,
@@ -56,6 +62,8 @@ Body JSON:
   "contact_id": int
 }
 ```
+
+</details>
 
 ### Read: individual
 GET/v1/employees/:id
