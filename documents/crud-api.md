@@ -86,6 +86,9 @@ GET/v1/employees/:id
 ### Read: entire
 GET/v1/employees/
 
+### Delete
+DELETE/v1/employees/delete/:id
+
 </details>
 
 ## Job Title
@@ -138,5 +141,66 @@ GET/v1/jobtitles/:id
 
 ### Read: entire
 GET/v1/jobtitles/
+
+### Delete
+DELETE/v1/jobtitles/delete/:id
+
+</details>
+
+## Phone Number
+
+<details>
+  <summary>Expand</summary>
+
+### Create
+POST/v1/contacts/add
+
+<details>
+  <summary>Body JSON</summary>
+  
+```
+{
+  "emergency_call": string,
+  "personal_call": string
+}
+```
+
+Return codes:
+* 201: Created
+* 500: Internal Server Error (unexpected error)
+* Created content
+
+</details>
+
+### Update
+PUT/v1/contacts/update
+
+<details>
+  <summary>Body JSON</summary>
+  
+```
+{
+  "phone_id": int,
+  "emergency_call": string,
+  "personal_call": string
+}
+```
+
+</details>
+
+Return codes:
+* 200: OK
+* 404: Not Found
+* 500: Internal Server Error (unexpected error)
+* Updated content
+
+### Read: individual
+GET/v1/contacts/:id
+
+### Read: entire
+GET/v1/contacts/
+
+### Delete
+DELETE/v1/contacts/delete/:id
 
 </details>
