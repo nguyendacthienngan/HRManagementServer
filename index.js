@@ -6,6 +6,7 @@ const loginRoute = require("./routes/login.route");
 const employeesRoute = require("./routes/employees.route");
 const jobtitlesRoute = require("./routes/jobtitles.route");
 const phoneNumberRoute = require("./routes/phonenumber.route");
+const salaryCoefRoute = require("./routes/salarycoefficient.route");
 
 // Import utils
 const { body } = require("express-validator");
@@ -18,9 +19,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
 
 app.use(api.version + "/login", loginRoute);
-app.use(api.version + api.objects.employee, employeesRoute);
-app.use(api.version + api.objects.jobTitle, jobtitlesRoute);
-app.use(api.version + api.objects.phoneNumber, phoneNumberRoute);
+app.use(api.version + api.objects.employee      , employeesRoute);
+app.use(api.version + api.objects.jobTitle      , jobtitlesRoute);
+app.use(api.version + api.objects.phoneNumber   , phoneNumberRoute);
+app.use(api.version + api.objects.salaryCoef    , salaryCoefRoute);
 
 app.get("/", function(req,res) {
     res.send("Welcome to this api");

@@ -9,7 +9,7 @@ const apiRoutes =
         event:          "/events",
         phoneNumber:    "/contacts",
         jobTitle:       "/jobtitles",
-
+        salaryCoef:     "/salaries"
     },
 
     actions:
