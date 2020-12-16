@@ -12,6 +12,10 @@ The version of API will be noted at the very first of any document, after this s
 API version: v1
 
 ## Employee
+
+<details>
+  <summary>Expand</summary>
+
 ### Create
 POST/v1/employees/add
 
@@ -82,7 +86,13 @@ GET/v1/employees/:id
 ### Read: entire
 GET/v1/employees/
 
+</details>
+
 ## Job Title
+
+<details>
+  <summary>Expand</summary>
+
 ### Create
 POST/v1/jobtitles/add
 
@@ -129,3 +139,4 @@ GET/v1/jobtitles/:id
 ### Read: entire
 GET/v1/jobtitles/
 
+</details>
