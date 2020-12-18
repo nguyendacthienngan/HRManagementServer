@@ -319,7 +319,7 @@ DELETE/v1/statuses/delete/:id
 
 </details>
 
-## Candidate Status
+## Candidate
 
 <details>
   <summary>Expand</summary>
