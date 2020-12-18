@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Candidate.belongsTo(models.JobTitle,{
-        foreignKey: 'title_id',
+        foreignKey: 'id',
         //as:'position'
       });
       Candidate.belongsToMany(models.Interview, { 
@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
     first_name: DataTypes.STRING,
     last_name: DataTypes.STRING,
     national_id: DataTypes.STRING,
-    employee_type: DataTypes.INTEGER,
+    employ_type: DataTypes.INTEGER,
     position: DataTypes.INTEGER,
     birth_date: DataTypes.DATE,
     gender: DataTypes.INTEGER,
