@@ -9,7 +9,8 @@ const apiRoutes =
         event:          "/events",
         phoneNumber:    "/contacts",
         jobTitle:       "/jobtitles",
-        salaryCoef:     "/salaries"
+        salaryCoef:     "/salaries",
+        status:         "/statuses"
     },
 
     actions:
