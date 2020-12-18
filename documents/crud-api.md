@@ -262,3 +262,59 @@ GET/v1/salaries/
 DELETE/v1/salaries/delete/:id
 
 </details>
+
+## Candidate Status
+
+<details>
+  <summary>Expand</summary>
+
+### Create
+POST/v1/statuses/add
+
+<details>
+  <summary>Body JSON</summary>
+  
+```
+{
+  "status_name": string
+}
+```
+
+Return codes:
+* 201: Created
+* 500: Internal Server Error (unexpected error)
+* Created content
+
+</details>
+
+### Update
+PUT/v1/statuses/update
+
+<details>
+  <summary>Body JSON</summary>
+  
+```
+{
+  "status_id": int,
+  "status_name": string
+}
+```
+
+</details>
+
+Return codes:
+* 200: OK
+* 404: Not Found
+* 500: Internal Server Error (unexpected error)
+* Updated content
+
+### Read: individual
+GET/v1/statuses/:id
+
+### Read: entire
+GET/v1/statuses/
+
+### Delete
+DELETE/v1/statuses/delete/:id
+
+</details>
