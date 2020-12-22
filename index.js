@@ -10,6 +10,7 @@ const salaryCoefRoute = require("./routes/salarycoefficient.route");
 const candidateStatusRoute = require("./routes/candidatestatus.route");
 const candidateRoute = require("./routes/candidate.route");
 const eventRoute = require("./routes/events.route");
+const publicEventRoute = require("./routes/publicevents.route");
 
 // Import utils
 const { body } = require("express-validator");
@@ -30,6 +31,7 @@ app.use(api.version + api.objects.status        , candidateStatusRoute);
 app.use(api.version + api.objects.candidate     , candidateRoute);
 
 app.use(api.version + api.objects.event.general , eventRoute);
+app.use(api.version + api.objects.event.public.general, publicEventRoute);
 
 app.get("/", function(req,res) {
     res.send("Welcome to this api");

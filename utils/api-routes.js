@@ -20,15 +20,15 @@ const apiRoutes =
             general:            "/events",
             local:
             {
-                general:        "/events/local",
-                timeOff:        "/events/local/time-off",
-                meeting:        "/events/local/meetings"
+                general:        "/local-events",
+                timeOff:        "/local-events/time-off",
+                meeting:        "/local-events/meetings"
             },
             
             public: 
             {
-                general:        "/events/public",
-                interview:      "/events/public/interviews"
+                general:        "/public-events",
+                interview:      "/public-events/interviews"
             }
         },
         
