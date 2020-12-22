@@ -7,13 +7,33 @@ const apiRoutes =
         employee:       "/employees", 
         benefit:        "/benefits",
         candidate:      "/candidates",
-        event:          "/events",
         phoneNumber:    "/contacts",
         jobTitle:       "/jobtitles",
         salaryCoef:     "/salaries",
         status:         "/statuses",
+        teams:          "/teams",
+        managers:       "/managers",
         authentication: "/authentication",
-        event:          "/events",
+        
+        event:
+        {
+            general:            "/events",
+            local:
+            {
+                general:        "/events/local",
+                timeOff:        "/events/local/time-off",
+                meeting:        "/events/local/meetings"
+            },
+            
+            public: 
+            {
+                general:        "/events/public",
+                interview:      "/events/public/interviews"
+            }
+        },
+        
+        rooms:          "/rooms",
+        leaveTypes:     "/leave-types",
 
         relations:
         {
