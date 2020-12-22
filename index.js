@@ -20,7 +20,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
 
-app.use(api.version + "/login", loginRoute);
+app.use(api.version + api.objects.authentication, loginRoute);
 app.use(api.version + api.objects.employee      , employeesRoute);
 app.use(api.version + api.objects.jobTitle      , jobtitlesRoute);
 app.use(api.version + api.objects.phoneNumber   , phoneNumberRoute);

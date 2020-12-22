@@ -1,6 +1,6 @@
+const http = require("../utils/http-status");
 
-
-module.exports.postLogin = (req, res, next) => {
+module.exports.doLogin = (req, res, next) => {
     const username = req.body.username;
     const password = req.body.password;
     res.send(username);

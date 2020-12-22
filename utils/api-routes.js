@@ -4,17 +4,31 @@ const apiRoutes =
 
     objects:
     {
-        employee:       "/employees",
+        employee:       "/employees", 
+        benefit:        "/benefits",
         candidate:      "/candidates",
         event:          "/events",
         phoneNumber:    "/contacts",
         jobTitle:       "/jobtitles",
         salaryCoef:     "/salaries",
-        status:         "/statuses"
+        status:         "/statuses",
+        authentication: "/authentication",
+        event:          "/events",
+
+        relations:
+        {
+            employees_benefits:     "/employees-benefits",
+            employees_teams:        "/employees-teams",
+            employees_localEvents:  "/employees-localevents",
+            employees_interviews:   "/employees-interviews",
+            candidates_interviews:  "/candidates-interviews"
+        }
     },
 
     actions:
     {
+        login:          "/login",
+
         create:         "/add",
         search:         "/search",
         update:         "/update",
