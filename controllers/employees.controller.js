@@ -20,21 +20,55 @@ module.exports.getAll = (req, res, next) => {
 
 module.exports.getEmployee = (req, res, next) => {
   Employee.findOne({
-    attributes: [
-      "id", "manager_id", "first_name", "last_name", "national_id",
-      "employ_type", "job_title_id", "salary_coefficient_id",
-      "birth_date", "gender", "marital_status", "address", "email",
-      "phone_contact_id"
+    include: [
+      {
+        model: db.JobTitle,
+        required: true
+      },
+      {
+        model: db.SalaryCoefficient,
+        required: true
+      },
+      {
+        model: db.PhoneNumber,
+        required: true
+      }
     ],
     where: {
       id: req.params.id
-    }
+    },
   })
     .then((employee) => {
       if (!employee) {
         return res.status(http.NOTFOUND).json("Employee does not exist!");
       }
-      res.status(http.OK).json(employee);
+      const finalResult = {
+        id: employee.id,
+        manager_id: employee.manager_id,
+        first_name: employee.first_name,
+        last_name: employee.last_name,
+        national_id: employee.national_id,
+        employ_type: employee.employ_type,
+        job_title: {
+          id: employee.JobTitle.id,
+          title_name: employee.JobTitle.title_name
+        },
+        salary_coefficient: {
+          id: employee.SalaryCoefficient.id,
+          value: employee.SalaryCoefficient.value
+        },
+        birth_date: employee.birth_date,
+        gender: employee.gender,
+        marital_status: employee.marital_status,
+        address: employee.address,
+        email: employee.email,
+        phone_contact: {
+          id: employee.PhoneNumber.id,
+          emergency_call: employee.PhoneNumber.emergency_call,
+          personal_call: employee.PhoneNumber.personal_call
+        },
+      };
+      res.status(http.OK).json(finalResult);
     })
     .catch((err) => {
       if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;

@@ -16,6 +16,9 @@ module.exports = (sequelize, DataTypes) => {
       Employee.belongsTo(models.PhoneNumber,{
         foreignKey: 'phone_contact_id',
       });
+      Employee.belongsTo(models.SalaryCoefficient,{
+        foreignKey: 'salary_coefficient_id',
+      });
       Employee.belongsToMany(models.Benefit, { 
         through: 'Re_Employee_Benefit', 
         foreignKey: 'employee_id', 
