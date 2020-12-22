@@ -17,52 +17,85 @@ module.exports.getAll = (req, res, next) => {
 }
 
 module.exports.createEvent = (req, res, next) => {
-  Event.create({
-    event_name: req.body.event_name,
-    start_date: req.body.start_date,
-    end_date: req.body.end_date,
-    // event_status: req.body.event_status,
-    announcement: req.body.announcement
-  })
+  this.createInternally(req)
     .then(result => {
-      res.status(http.CREATED).json(result);
+      res.status(http.OK).json(result);
     })
-    .catch(err => {
-      if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
-      next(err);
+    .catch(error => {
+      next(error);
+    });
+}
+
+module.exports.createInternally = req => {
+  return new Promise((resolve, reject) => {
+    Event.create({
+      event_name: req.body.event_name,
+      start_date: req.body.start_date,
+      end_date: req.body.end_date,
+      // event_status: req.body.event_status,
+      announcement: req.body.announcement
     })
+      .then(result => {
+        resolve(result);
+      })
+      .catch(err => {
+        if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
+        reject(err);
+      })
+  });
+}
+
+module.exports.updateInternally = req => {
+  return new Promise((resolve, reject) => {
+    Event.findOne({
+      attributes: ["id"],
+      where: { id: req.body.event_id }
+    })
+      .then(result => {
+        if (!result) {
+          let err = {
+            message: "Event does not exist!",
+            status: "404 Not Found",
+            statusCode: http.NOTFOUND
+          }
+          return reject(err);
+        }
+
+        result.update({
+          event_name: req.body.event_name,
+          start_date: req.body.start_date,
+          end_date: req.body.end_date,
+          // event_status: req.body.event_status,
+          announcement: req.body.announcement
+        })
+          .then(updated => {
+            // res.status(http.OK).json(updated);
+            resolve(updated);
+          })
+          .catch(err => {
+            if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
+            // next(err);
+            reject(err);
+          })
+      })
+      .catch(err => {
+        if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
+        // next(err);
+        reject(err);
+      })
+  });
 }
 
 module.exports.updateEvent = (req, res, next) => {
-  Event.findOne({
-    attributes: ["id"],
-    where: { id: req.body.event_id }
-  })
+  this.updateInternally(req)
     .then(result => {
-      if (!result) {
-        return res.status(http.NOTFOUND).json("Event does not exist!");
-      }
-
-      result.update({
-        event_name: req.body.event_name,
-        start_date: req.body.start_date,
-        end_date: req.body.end_date,
-        // event_status: req.body.event_status,
-        announcement: req.body.announcement
-      })
-        .then(updated => {
-          res.status(http.OK).json(updated);
-        })
-        .catch(err => {
-          if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
-          next(err);
-        })
+      res.status(http.OK).json(result);
     })
     .catch(err => {
-      if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
       next(err);
-    })
+    });
 }
+
 
 module.exports.getEvent = (req, res, next) => {
   Event.findOne({
