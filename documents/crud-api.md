@@ -318,3 +318,75 @@ GET/v1/statuses/
 DELETE/v1/statuses/delete/:id
 
 </details>
+
+## Candidate
+
+<details>
+  <summary>Expand</summary>
+
+### Create
+POST/v1/candidates/add
+
+<details>
+  <summary>Body JSON</summary>
+  
+```
+{
+  "first_name": string,
+  "last_name": string,
+  "national_id": string,
+  "employ_type": int,
+  "position": int,
+  "birth_date": date,
+  "gender": int,
+  "candidate_status": int,
+  "email": string
+}
+```
+
+Return codes:
+* 201: Created
+* 500: Internal Server Error (unexpected error)
+* Created content
+
+</details>
+
+### Update
+PUT/v1/candidates/update
+
+<details>
+  <summary>Body JSON</summary>
+  
+```
+{
+  "candidate_id": int,
+  "first_name": string,
+  "last_name": string,
+  "national_id": string,
+  "employ_type": int,
+  "position": int,
+  "birth_date": date,
+  "gender": int,
+  "candidate_status": int,
+  "email": string
+}
+```
+
+</details>
+
+Return codes:
+* 200: OK
+* 404: Not Found
+* 500: Internal Server Error (unexpected error)
+* Updated content
+
+### Read: individual
+GET/v1/candidates/:id
+
+### Read: entire
+GET/v1/candidates/
+
+### Delete
+DELETE/v1/candidates/delete/:id
+
+</details>
