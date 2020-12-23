@@ -7,6 +7,7 @@ module.exports = {
         start_date : new Date(2020, 10, 1),
         end_date: new Date(2025, 12, 31),
         announcement:'Tuyển dụng bộ phận Dev',
+        event_status: 1,
         createdAt: new Date(),
         updatedAt: new Date()
      },
@@ -14,6 +15,7 @@ module.exports = {
       event_name:'Time Off',
       start_date : new Date(2020, 11, 5),
       end_date: new Date(2025, 11, 6),
+      event_status: 1,
       announcement:'Nghỉ phép',
       createdAt: new Date(),
       updatedAt: new Date()
@@ -22,6 +24,7 @@ module.exports = {
       event_name:'Meeting',
       start_date : new Date(2020, 11, 5),
       end_date: new Date(2025, 11, 6),
+      event_status: 1,
       announcement:'Họp meeting',
       createdAt: new Date(),
       updatedAt: new Date()
@@ -30,6 +33,7 @@ module.exports = {
       event_name:'Team building',
       start_date : new Date(2020, 11, 5),
       end_date: new Date(2025, 11, 6),
+      event_status: 1,
       announcement:'Tuyển dụng bộ phận Dev',
       createdAt: new Date(),
       updatedAt: new Date()

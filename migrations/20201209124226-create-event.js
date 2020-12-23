@@ -17,6 +17,9 @@ module.exports = {
       end_date: {
         type: Sequelize.DATE
       },
+      event_status: {
+        type: Sequelize.INTEGER
+      },
       announcement: {
         type: Sequelize.STRING
       },
