@@ -2,16 +2,17 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require('cors')
 // Import routes
-const loginRoute = require("./routes/login.route");
-const employeesRoute = require("./routes/employees.route");
-const jobtitlesRoute = require("./routes/jobtitles.route");
-const phoneNumberRoute = require("./routes/phonenumber.route");
-const salaryCoefRoute = require("./routes/salarycoefficient.route");
-const roomRoute = require("./routes/rooms.route");
-const candidateStatusRoute = require("./routes/candidatestatus.route");
-const candidateRoute = require("./routes/candidate.route");
-const eventRoute = require("./routes/events.route");
-const publicEventRoute = require("./routes/publicevents.route");
+const loginRoute            = require("./routes/login.route");
+const employeesRoute        = require("./routes/employees.route");
+const jobtitlesRoute        = require("./routes/jobtitles.route");
+const phoneNumberRoute      = require("./routes/phonenumber.route");
+const salaryCoefRoute       = require("./routes/salarycoefficient.route");
+const roomRoute             = require("./routes/rooms.route");
+const candidateStatusRoute  = require("./routes/candidatestatus.route");
+const candidateRoute        = require("./routes/candidate.route");
+const eventRoute            = require("./routes/events.route");
+const publicEventRoute      = require("./routes/publicevents.route");
+const interviewRoute        = require("./routes/interviews.route");
 
 // Import utils
 const { body } = require("express-validator");
@@ -34,6 +35,7 @@ app.use(api.version + api.objects.rooms         , roomRoute);
 
 app.use(api.version + api.objects.event.general , eventRoute);
 app.use(api.version + api.objects.event.public.general, publicEventRoute);
+app.use(api.version + api.objects.event.public.interview, interviewRoute);
 
 app.get("/", function(req,res) {
     res.send("Welcome to this api");

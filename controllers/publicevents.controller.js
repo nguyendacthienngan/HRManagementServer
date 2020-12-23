@@ -66,7 +66,7 @@ module.exports.updateInternally = req => {
   return new Promise((resolve, reject) => {
     PublicEvent.findOne({
       include: [{ model: Event, required: true }],
-      where: { id: req.body.event_id }
+      where: { id: req.body.public_event_id }
     })
       .then(result => {
         console.log(result);
@@ -109,6 +109,37 @@ module.exports.updatePublicEvent = (req, res, next) => {
     })
 }
 
+module.exports.extractFromID = id => {
+  return new Promise((resolve, reject) => {
+    PublicEvent.findOne({
+      include: [{ model: Event, required: true }],
+      where: { id: id }
+    })
+      .then(result => {
+        if (!result) {
+          let err = {
+            status: "404 NOT FOUND",
+            statusCode: http.NOTFOUND
+          }
+          return reject(err);
+        }
+        const finalResult = Object.assign({}, {
+          id: result.id,
+          event_info_id: result.event_info_id,
+          event_name: result.Event.event_name,
+          start_date: result.Event.start_date,
+          end_date: result.Event.end_date,
+          announcement: result.Event.announcement
+        })
+        resolve(finalResult);
+      })
+      .catch(err => {
+        if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
+        next(err);
+      })
+  });
+}
+
 module.exports.getPublicEvent = (req, res, next) => {
   PublicEvent.findOne({
     include: [{ model: Event, required: true }],
@@ -132,6 +163,40 @@ module.exports.getPublicEvent = (req, res, next) => {
       if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
       next(err);
     })
+}
+
+module.exports.deleteInternally = id => {
+  return new Promise((resolve, reject) => {
+    PublicEvent.findOne({
+      where: { id: id }
+    })
+      .then(result => {
+        console.log(result);
+        if (!result) {
+          let err = {
+            status: "404 NOT FOUND",
+            statusCode: http.NOTFOUND
+          }
+          return reject(err);
+        }
+        Event.destroy({
+          where: { id: result.event_info_id }
+        })
+          .then(e => {
+            result.destroy({})
+              .then(p => { resolve() })
+              .catch(err => { reject(err); })
+          })
+          .catch(err => {
+            if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
+            reject(err);
+          })
+      })
+      .catch(err => {
+        if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
+        reject(err);
+      })
+  })
 }
 
 module.exports.deletePublicEvent = (req, res, next) => {
