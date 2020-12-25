@@ -1,51 +1,24 @@
 const db = require("../models");
 const sequelize = require("sequelize");
-const details = db.CandidateInterview;
+const details = db.Re_Interview_Candidate;
 const http = require("../utils/http-status");
 
 module.exports.getAll = (req, res, next) => {
-  Interview.findAll({
+  details.findAll({
+    attributes: ["candidate_id", "interview_id"],
     include: [
       {
-        model: db.Room,
+        model: db.Interview,
         required: true
       },
       {
-        model: db.PublicEvent,
+        model: db.Candidate,
         required: true
       }
     ]
   })
     .then(results => {
-      const finalResults = [];
-      let index = 0;
-      results.forEach(result => {
-        publicEventController.extractFromID(result.PublicEvent.id)
-          .then(r => {
-            finalResults.push({
-              id: result.id,
-              public_event_id: r.id,
-              event_id: r.event_info_id,
-              event_name: r.event_name,
-              start_date: r.start_date,
-              end_date: r.end_date,
-              announcement: r.announcement,
-              room: {
-                id: result.Room.id,
-                room_name: result.Room.room_name
-              },
-            });
-            if (index == results.length - 1) {
-              res.status(http.OK).json(finalResults);
-            }
-            else
-              index++;
-          })
-          .catch(err => {
-            if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
-            next(err);
-          })
-      });
+      res.status(http.OK).json(results);
     })
     .catch((err) => {
       if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
