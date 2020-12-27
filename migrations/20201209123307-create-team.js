@@ -11,6 +11,9 @@ module.exports = {
       team_name: {
         type: Sequelize.STRING
       },
+      team_type: {
+        type: Sequelize.INTEGER
+      },
       manager_id: {
         type: Sequelize.INTEGER,
         allowNull: false,

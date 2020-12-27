@@ -32,26 +32,27 @@ module.exports.getAll = (req, res, next) => {
           manager_id: employee.manager_id,
           first_name: employee.first_name,
           last_name: employee.last_name,
-          national_id: employee.national_id,
+          // national_id: employee.national_id,
           employ_type: employee.employ_type,
           job_title: {
             id: employee.JobTitle.id,
             title_name: employee.JobTitle.title_name
-          },
-          salary_coefficient: {
-            id: employee.SalaryCoefficient.id,
-            value: employee.SalaryCoefficient.value
-          },
-          birth_date: employee.birth_date,
-          gender: employee.gender,
-          marital_status: employee.marital_status,
-          address: employee.address,
-          email: employee.email,
-          phone_contact: {
-            id: employee.PhoneNumber.id,
-            emergency_call: employee.PhoneNumber.emergency_call,
-            personal_call: employee.PhoneNumber.personal_call
-          },
+          }, 
+          involved_teams: []
+          // salary_coefficient: {
+          //   id: employee.SalaryCoefficient.id,
+          //   value: employee.SalaryCoefficient.value
+          // },
+          // birth_date: employee.birth_date,
+          // gender: employee.gender,
+          // marital_status: employee.marital_status,
+          // address: employee.address,
+          // email: employee.email,
+          // phone_contact: {
+          //   id: employee.PhoneNumber.id,
+          //   emergency_call: employee.PhoneNumber.emergency_call,
+          //   personal_call: employee.PhoneNumber.personal_call
+          // },
         });
 
       });
