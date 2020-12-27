@@ -26,39 +26,65 @@ module.exports.getAll = (req, res, next) => {
   )
     .then((users) => {
       // res.status(http.OK).json(users);
-      const finalResults = users.map(employee => {
-        return Object.assign({}, {
-          id: employee.id,
-          manager_id: employee.manager_id,
-          first_name: employee.first_name,
-          last_name: employee.last_name,
-          // national_id: employee.national_id,
-          employ_type: employee.employ_type,
-          job_title: {
-            id: employee.JobTitle.id,
-            title_name: employee.JobTitle.title_name
-          }, 
-          involved_teams: []
-          // salary_coefficient: {
-          //   id: employee.SalaryCoefficient.id,
-          //   value: employee.SalaryCoefficient.value
-          // },
-          // birth_date: employee.birth_date,
-          // gender: employee.gender,
-          // marital_status: employee.marital_status,
-          // address: employee.address,
-          // email: employee.email,
-          // phone_contact: {
-          //   id: employee.PhoneNumber.id,
-          //   emergency_call: employee.PhoneNumber.emergency_call,
-          //   personal_call: employee.PhoneNumber.personal_call
-          // },
-        });
+      let cnt = 0;
+      users.forEach(user => {
+        DetailTeam.findAll({
+          where: { employee_id: user.id },
+          include: [{ model: db.Team, required: true }]
+        })
+          .then(d => {
+            user.involved_teams = [];
+            d.forEach(team => {
+              user.involved_teams.push({
+                team_id: team.team_id,
+                team_name: team.Team.team_name,
+                team_type: team.Team.team_type,
+                manager_id: team.Team.manager_id
+              })
+            })
 
+            cnt++;
+
+            if (cnt === users.length - 1) {
+              const finalResults = users.map(employee => {
+                return Object.assign({}, {
+                  id: employee.id,
+                  manager_id: employee.manager_id,
+                  first_name: employee.first_name,
+                  last_name: employee.last_name,
+                  // national_id: employee.national_id,
+                  employ_type: employee.employ_type,
+                  job_title: {
+                    id: employee.JobTitle.id,
+                    title_name: employee.JobTitle.title_name
+                  },
+                  involved_teams: employee.involved_teams
+                  // salary_coefficient: {
+                  //   id: employee.SalaryCoefficient.id,
+                  //   value: employee.SalaryCoefficient.value
+                  // },
+                  // birth_date: employee.birth_date,
+                  // gender: employee.gender,
+                  // marital_status: employee.marital_status,
+                  // address: employee.address,
+                  // email: employee.email,
+                  // phone_contact: {
+                  //   id: employee.PhoneNumber.id,
+                  //   emergency_call: employee.PhoneNumber.emergency_call,
+                  //   personal_call: employee.PhoneNumber.personal_call
+                  // },
+                });
+              });
+              res.status(http.OK).json(finalResults);
+            }
+          })
+          .catch(err => {
+            if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
+            next(err);
+          })
       });
-      res.status(http.OK).json(finalResults);
     })
-    .catch((err) => {
+    .catch(err => {
       if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
       next(err);
     });
@@ -131,6 +157,7 @@ module.exports.getEmployee = (req, res, next) => {
             finalResult.involved_teams.push({
               team_id: team.team_id,
               team_name: team.Team.team_name,
+              team_type: team.Team.team_type,
               manager_id: team.Team.manager_id
             });
           });
