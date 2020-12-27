@@ -18,7 +18,18 @@ module.exports.getAll = (req, res, next) => {
     ]
   })
     .then(results => {
-      res.status(http.OK).json(results);
+      const finalResults = results.map(result => {
+        let candidate = result.Candidate;
+        let interview = result.Interview;
+
+        return Object.assign({}, {
+          candidate_id: result.candidate_id,
+          interview_id: result.interview_id,
+          candidate: candidate,
+          interview: interview
+        })
+      })
+      res.status(http.OK).json(finalResults);
     })
     .catch((err) => {
       if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
@@ -26,75 +37,87 @@ module.exports.getAll = (req, res, next) => {
     });
 }
 
-module.exports.createInterview = (req, res, next) => {
-  publicEventController.createInternally(req)
-    .then(result => {
-      Interview.create({
-        public_event_id: result.id,
-        room_id: req.body.room_id
-      })
-        .then(r => {
-          res.status(http.CREATED).json(r);
-        })
-        .catch(err => {
-          if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
-          next(err);
-        })
-    })
-    .catch(err => {
-      next(err);
-    })
-}
+module.exports.assignRelations = (req, res, next) => {
+  let results = [];
+  req.body.forEach(relation => {
+    const candidate_id = relation.candidate_id;
+    const interview_id = relation.interview_id;
 
-module.exports.updateInterview = (req, res, next) => {
-  Interview.findOne({
-    include: [{ model: db.PublicEvent, required: true }],
-    where: { id: req.body.interview_id }
-  })
-    .then(result => {
-      if (!result || !result.PublicEvent) {
-        return res.status(http.NOTFOUND).json("Interview does not exist!");
+    details.findOne({
+      where: {
+        candidate_id: candidate_id,
+        interview_id: interview_id
       }
-
-      result.update(
-        { room_id: req.body.room_id }
-      )
-        .then(updatedA => {
-          publicEventController.updateInternally({
-            body: {
-              public_event_id: result.public_event_id,
-              event_name: req.body.event_name,
-              start_date: req.body.start_date,
-              end_date: req.body.end_date,
-              // event_status: req.body.event_status,
-              announcement: req.body.announcement
-            }
+    })
+      .then(result => {
+        if (!result) {
+          details.create({
+            candidate_id: candidate_id,
+            interview_id: interview_id
           })
-            .then(updatedB => {
-              res.status(http.OK).json({
-                id: updatedA.id,
-                public_event_id: updatedB.id,
-                event_info_id: updatedB.event_info_id,
-                room_id: updatedA.room_id,
-                event_name: updatedB.event_name,
-                start_date: updatedB.start_date,
-                end_date: updatedB.end_date,
-                announcement: updatedB.announcement
-              })
+            .then(result => {
+              results.push(result);
+              if (results.length == req.body.length) {
+                res.status(http.OK).json(results);
+              }
             })
             .catch(err => {
+              if (!err.status) err.statusCode = http.NOTFOUND;
               next(err);
             })
-        })
-        .catch(err => {
-          if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
-          next(err);
-        })
+        }
+      })
+      .catch(err => {
+        if (!err.status) err.statusCode = http.NOTFOUND;
+        next(err);
+      })
+  });
+}
+
+module.exports.updateRelations = (req, res, next) => {
+  let results = [];
+  let count = 0;
+
+  req.body.forEach(relation => {
+    const old_candidate_id = relation.old.candidate_id;
+    const old_interview_id = relation.old.interview_id;
+
+    const new_candidate_id = relation.new.candidate_id;
+    const new_interview_id = relation.new.interview_id;
+
+    console.log(new_candidate_id + "|" + new_interview_id);
+
+    details.findOne({
+      where: {
+        candidate_id: old_candidate_id,
+        interview_id: old_interview_id
+      }
     })
-    .catch(err => {
-      if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
-      next(err);
-    })
+      .then(result => {
+        if (result) {
+          result.update({
+            candidate_id: new_candidate_id,
+            interview_id: new_interview_id
+          })
+            .then(updated => {
+              console.log(updated);
+              results.push(updated);
+              if (results.length === count) {
+                res.status(http.OK).json(results);
+              }
+            })
+            .catch(err => {
+              if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
+              next(err);
+            })
+        }
+        count++;
+      })
+      .catch(err => {
+        if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
+        next(err);
+      })
+  });
 }
 
 module.exports.getInterview = (req, res, next) => {

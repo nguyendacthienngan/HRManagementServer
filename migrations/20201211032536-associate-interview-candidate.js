@@ -9,6 +9,7 @@ module.exports = {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.INTEGER,
+        raw: true,
         references:{
           model: 'Interviews',
           key: 'id',
@@ -20,6 +21,7 @@ module.exports = {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.INTEGER,
+        raw: true,
         references:{
           model: 'Candidates',
           key: 'id',

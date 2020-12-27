@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Re_Employee_LocalEvent',
+    return queryInterface.createTable('Re_Employee_LocalEvents',
     {
       employee_id: 
       {
@@ -42,6 +42,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Re_Employee_LocalEvent');
+    return queryInterface.dropTable('Re_Employee_LocalEvents');
   }
 };

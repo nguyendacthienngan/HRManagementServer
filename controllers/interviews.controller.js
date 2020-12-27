@@ -125,6 +125,56 @@ module.exports.updateInterview = (req, res, next) => {
     })
 }
 
+module.exports.getFromID = id => {
+  return new Promise((resolve, reject) => {
+    Interview.findOne({
+      include: [
+        {
+          model: db.PublicEvent,
+          required: true
+        },
+        {
+          model: db.Room,
+          required: true
+        }
+      ],
+      where: { id: req.params.id }
+    })
+      .then(result => {
+        if (!result) {
+          reject({
+            status: "404 NOT FOUND",
+            statusCode: http.NOTFOUND
+          });
+        }
+        publicEventController.extractFromID(result.public_event_id)
+          .then(r => {
+            resolve({
+              id: result.id,
+              public_event_id: result.public_event_id,
+              event_info_id: r.event_info_id,
+              event_name: r.event_name,
+              start_date: r.start_date,
+              end_date: r.end_date,
+              announcement: r.announcement,
+              room: {
+                id: result.Room.id,
+                room_name: result.Room.room_name
+              }
+            })
+          })
+          .catch(err => {
+            if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
+            reject(err);
+          })
+      })
+      .catch(err => {
+        if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
+        reject(err);
+      })
+  })
+}
+
 module.exports.getInterview = (req, res, next) => {
   Interview.findOne({
     include: [
