@@ -8,7 +8,7 @@ router.get("/", controller.getAll);
 
 router.post(api.actions.create, controller.assignRelations);
 
-router.put(api.actions.update, controller.updateRelations);
+// router.put(api.actions.update, controller.updateRelations);
 
 // router.delete(api.actions.delete + "/:id", controller.deleteCandidate);
 

@@ -29,15 +29,15 @@ module.exports = {
       },
       national_id: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       employ_type: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
       },
       job_title_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references:{
           model: 'JobTitles',
           key: 'id',
@@ -47,7 +47,7 @@ module.exports = {
       },
       salary_coefficient_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references:{
           model: 'SalaryCoefficients',
           key: 'id',
@@ -72,7 +72,7 @@ module.exports = {
       },
       phone_contact_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references:{
           model: 'PhoneNumbers',
           key: 'id',
