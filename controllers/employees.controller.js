@@ -1,6 +1,8 @@
 const db = require("../models");
 const sequelize = require("sequelize");
 const Employee = db.Employee;
+const DetailTeam = db.Re_Employee_Team;
+const DetailBenefit = db.Re_Employee_Benefit;
 const http = require("../utils/http-status");
 
 module.exports.getAll = (req, res, next) => {
@@ -85,7 +87,7 @@ module.exports.getEmployee = (req, res, next) => {
       if (!employee) {
         return res.status(http.NOTFOUND).json("Employee does not exist!");
       }
-      const finalResult = {
+      let finalResult = {
         id: employee.id,
         manager_id: employee.manager_id,
         first_name: employee.first_name,
@@ -110,8 +112,52 @@ module.exports.getEmployee = (req, res, next) => {
           emergency_call: employee.PhoneNumber.emergency_call,
           personal_call: employee.PhoneNumber.personal_call
         },
+        involved_teams: [],
+        benefits: []
       };
-      res.status(http.OK).json(finalResult);
+
+      DetailTeam.findAll({
+        where: {
+          employee_id: employee.id
+        },
+        include: [
+          { model: db.Team, required: true }
+        ]
+      })
+        .then(teams => {
+          // console.log(teams);
+          teams.forEach(team => {
+            finalResult.involved_teams.push({
+              team_id: team.team_id,
+              team_name: team.Team.team_name,
+              manager_id: team.Team.manager_id
+            });
+          });
+
+          DetailBenefit.findAll({
+            where: { employee_id: employee.id },
+            include: [{ model: db.Benefit, required: true }]
+          })
+            .then(benefits => {
+              benefits.forEach(b => {
+                finalResult.benefits.push({
+                  benefit_id: b.Benefit.id,
+                  benefit_name: b.Benefit.benefit_name,
+                  start_date: b.Benefit.start_date,
+                  end_date: b.Benefit.end_date
+                });
+              });
+              res.status(http.OK).json(finalResult);
+            })
+            .catch((err) => {
+              if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
+              next(err);
+            })
+        })
+        .catch((err) => {
+          if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
+          next(err);
+        })
     })
     .catch((err) => {
       if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
