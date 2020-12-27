@@ -43,8 +43,6 @@ module.exports.getAll = (req, res, next) => {
               })
             })
 
-            cnt++;
-
             if (cnt === users.length - 1) {
               const finalResults = users.map(employee => {
                 return Object.assign({}, {
@@ -77,6 +75,8 @@ module.exports.getAll = (req, res, next) => {
               });
               res.status(http.OK).json(finalResults);
             }
+            else 
+              cnt++;
           })
           .catch(err => {
             if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
