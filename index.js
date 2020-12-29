@@ -15,6 +15,7 @@ const publicEventRoute      = require("./routes/publicevents.route");
 const interviewRoute        = require("./routes/interviews.route");
 const candidateInterviewRoute = require("./routes/candidates-interviews.route");
 const teamRoute             = require("./routes/teams.route");
+const scheduleRoute         = require("./routes/teamsschedule.route");
 
 // Import utils
 const { body } = require("express-validator");
@@ -35,6 +36,7 @@ app.use(api.version + api.objects.status        , candidateStatusRoute);
 app.use(api.version + api.objects.candidate     , candidateRoute);
 app.use(api.version + api.objects.rooms         , roomRoute);
 app.use(api.version + api.objects.teams         , teamRoute);
+app.use(api.version + api.objects.teamSchedule  , scheduleRoute);
 
 app.use(api.version + api.objects.event.general , eventRoute);
 app.use(api.version + api.objects.event.public.general, publicEventRoute);

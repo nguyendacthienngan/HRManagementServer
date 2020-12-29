@@ -12,6 +12,7 @@ const apiRoutes =
         salaryCoef:     "/salaries",
         status:         "/statuses",
         teams:          "/teams",
+        teamSchedule:   "/schedules",
         managers:       "/managers",
         authentication: "/authentication",
         
