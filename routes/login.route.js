@@ -6,4 +6,6 @@ const api = require("./../utils/api-routes")
 
 router.post(api.actions.login, authController.doLogin);
 
+router.put(api.actions.update, authController.modifyPassword);
+
 module.exports = router;

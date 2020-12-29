@@ -1,7 +1,7 @@
 const http = require("../utils/http-status");
 const db = require("../models");
 const Account = db.Account;
-const employeeController = require("../controllers/employees.controller")
+const employeeController = require("../controllers/employees.controller");
 
 module.exports.doLogin = (req, res, next) => {
     const username = req.body.username;
@@ -29,6 +29,31 @@ module.exports.doLogin = (req, res, next) => {
             }
 
             res.status(http.ACCEPTED).json(data);
+        })
+        .catch(err => {
+            if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
+            next(err);
+        })
+}
+
+module.exports.modifyPassword = (req, res, next) => {
+    Account.findOne({
+        where: {
+            username: req.body.username,
+            password: req.body.old_password
+        }
+    })
+        .then(account => {
+            account.update({
+                password: req.body.new_password
+            })
+                .then(result => {
+                    res.status(http.ACCEPTED).json(result);
+                })
+                .catch(err => {
+                    if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
+                    next(err);
+                })
         })
         .catch(err => {
             if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
