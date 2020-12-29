@@ -287,18 +287,35 @@ module.exports.updateEmployee = (req, res, next) => {
 }
 
 module.exports.deleteEmployee = (req, res, next) => {
-  Employee.findOne({
-    attributes: ["id"],
-    where: { id: req.params.id }
+  db.Account.findOne({
+    where: { employee_id: req.params.id }
   })
     .then(result => {
       if (!result) {
         return res.status(http.NOTFOUND).json("Employee does not exist!");
       }
-
-      result.destroy()
-        .then(deleted => {
-          res.status(http.OK).json(deleted);
+      Employee.destroy({
+        where: { id: result.employee_id }
+      })
+        .then(r => {
+          result.destroy({})
+            .then(deleted => {
+              res.status(http.OK).json(deleted);
+            })
+            .catch(err => {
+              if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
+              next(err);
+            })
+          // db.Account.destroy({
+          //   where: { employee_id: req.params.id }
+          // })
+          //   .then(() => {
+          //     res.status(http.OK).json("deleted");
+          //   })
+          //   .catch(err => {
+          //     if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
+          //     next(err);
+          //   })
         })
         .catch(err => {
           if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
