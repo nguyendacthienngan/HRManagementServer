@@ -20,6 +20,7 @@ module.exports.getAll = (req, res, next) => {
           event_name: result.Event.event_name,
           start_date: result.Event.start_date,
           end_date: result.Event.end_date,
+          event_status: result.Event.event_status,
           announcement: result.Event.announcement
         })
       });
@@ -83,7 +84,7 @@ module.exports.updateInternally = req => {
           event_name: req.body.event_name,
           start_date: req.body.start_date,
           end_date: req.body.end_date,
-          // event_status: req.body.event_status,
+          event_status: req.body.event_status,
           announcement: req.body.announcement
         })
           .then(finalResult => {
@@ -129,6 +130,7 @@ module.exports.extractFromID = id => {
           event_name: result.Event.event_name,
           start_date: result.Event.start_date,
           end_date: result.Event.end_date,
+          event_status: result.Event.event_status,
           announcement: result.Event.announcement
         })
         resolve(finalResult);
@@ -155,6 +157,7 @@ module.exports.getPublicEvent = (req, res, next) => {
         event_name: result.Event.event_name,
         start_date: result.Event.start_date,
         end_date: result.Event.end_date,
+        event_status: result.Event.event_status,
         announcement: result.Event.announcement
       })
       res.status(http.OK).json(finalResult);

@@ -5,7 +5,7 @@ const http = require("../utils/http-status");
 
 module.exports.getAll = (req, res, next) => {
   Event.findAll({
-    attributes: ["id", "event_name", "start_date", "end_date"]
+    attributes: ["id", "event_name", "start_date", "end_date", "event_status"]
   })
     .then((result) => {
       res.status(http.OK).json(result);
@@ -32,7 +32,7 @@ module.exports.createInternally = req => {
       event_name: req.body.event_name,
       start_date: req.body.start_date,
       end_date: req.body.end_date,
-      // event_status: req.body.event_status,
+      event_status: req.body.event_status,
       announcement: req.body.announcement
     })
       .then(result => {
@@ -65,7 +65,7 @@ module.exports.updateInternally = req => {
           event_name: req.body.event_name,
           start_date: req.body.start_date,
           end_date: req.body.end_date,
-          // event_status: req.body.event_status,
+          event_status: req.body.event_status,
           announcement: req.body.announcement
         })
           .then(updated => {
@@ -99,7 +99,7 @@ module.exports.updateEvent = (req, res, next) => {
 
 module.exports.getEvent = (req, res, next) => {
   Event.findOne({
-    attributes: ["id", "event_name", "start_date", "end_date", "announcement"],
+    // attributes: ["id", "event_name", "start_date", "end_date", "announcement"],
     where: { id: req.params.id }
   })
     .then(jt => {

@@ -28,6 +28,7 @@ module.exports.getAll = (req, res, next) => {
               public_event_id: r.id,
               event_id: r.event_info_id,
               event_name: r.event_name,
+              event_status: r.event_status,
               start_date: r.start_date,
               end_date: r.end_date,
               announcement: r.announcement,
@@ -94,7 +95,7 @@ module.exports.updateInterview = (req, res, next) => {
               event_name: req.body.event_name,
               start_date: req.body.start_date,
               end_date: req.body.end_date,
-              // event_status: req.body.event_status,
+              event_status: req.body.event_status,
               announcement: req.body.announcement
             }
           })
@@ -154,6 +155,7 @@ module.exports.getFromID = id => {
               public_event_id: result.public_event_id,
               event_info_id: r.event_info_id,
               event_name: r.event_name,
+              event_status: r.event_status,
               start_date: r.start_date,
               end_date: r.end_date,
               announcement: r.announcement,
@@ -200,6 +202,7 @@ module.exports.getInterview = (req, res, next) => {
             public_event_id: result.public_event_id,
             event_info_id: r.event_info_id,
             event_name: r.event_name,
+            event_status: r.event_status,
             start_date: r.start_date,
             end_date: r.end_date,
             announcement: r.announcement,
