@@ -6,7 +6,8 @@ const http = require("../utils/http-status");
 module.exports.getAll = (req, res, next) => {
   Candidate.findAll(
     {
-      attributes: ["id", "first_name", "last_name", "national_id", "position"],
+      attributes: ["id", "first_name", "last_name", "email",
+      "candidate_state", "position", "phone_no"],
     }
   )
     .then((users) => {
@@ -24,7 +25,7 @@ module.exports.getCandidate = (req, res, next) => {
       "id", "first_name", "last_name", "national_id",
       "employ_type", "position", 
       "birth_date", "gender", "email",
-      "candidate_state"
+      "candidate_state", "phone_no"
     ],
     where: {
       id: req.params.id
