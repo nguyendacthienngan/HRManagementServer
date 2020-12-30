@@ -246,10 +246,10 @@ module.exports.updateEmployee = (req, res, next) => {
   const marital = req.body.marital_status;
   const address = req.body.address;
   const email = req.body.email;
-  const contact = req.body.contact_id;
+  const contact = req.body.contact;
 
   Employee.findOne({
-    attributes: ["id"],
+    // attributes: ["id"],
     where: { id: employeeId }
   })
     .then(employee => {
@@ -270,10 +270,32 @@ module.exports.updateEmployee = (req, res, next) => {
         marital_status: marital,
         address: address,
         email: email,
-        phone_contact_id: contact
       })
-        .then(updated => {
-          res.status(http.OK).json(updated);
+        .then(updatedA => {
+          console.log(updatedA);
+          db.PhoneNumber.findOne({
+            where: { id: updatedA.phone_contact_id }
+          })
+            .then(r => {
+              r.update({
+                emergency_call: contact.emergency_call,
+                personal_call: contact.personal_call
+              })
+                .then(updatedB => {
+                  res.status(http.OK).json({
+                    employee: updatedA,
+                    contact: updatedB
+                  });
+                })
+                .catch(err => {
+                  if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
+                  next(err);
+                })
+            })
+            .catch(err => {
+              if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
+              next(err);
+            })
         })
         .catch((err) => {
           if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
