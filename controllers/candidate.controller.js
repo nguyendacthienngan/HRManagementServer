@@ -53,6 +53,7 @@ module.exports.createCandidate = (req, res, next) => {
   const gender = req.body.gender;
   const email = req.body.email;
   const status_id = req.body.candidate_status;
+  const contact = req.body.contact;
 
   Candidate.create({
     first_name: firstName,
@@ -63,7 +64,8 @@ module.exports.createCandidate = (req, res, next) => {
     birth_date: birthDate,
     gender: gender,
     candidate_state: status_id,
-    email: email
+    email: email,
+    phone_no: contact
   })
     .then(result => {
       res.status(http.CREATED).json(result);
@@ -85,6 +87,7 @@ module.exports.updateCandidate = (req, res, next) => {
   const gender = req.body.gender;
   const status = req.body.candidate_status;
   const email = req.body.email;
+  const contact = req.body.contact;
 
   Candidate.findOne({
     attributes: ["id"],
@@ -104,7 +107,8 @@ module.exports.updateCandidate = (req, res, next) => {
         birth_date: birthDate,
         gender: gender,
         candidate_state: status,
-        email: email
+        email: email,
+        phone_no: contact
       })
         .then(updated => {
           res.status(http.OK).json(updated);
