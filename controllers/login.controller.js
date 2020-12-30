@@ -3,6 +3,20 @@ const db = require("../models");
 const Account = db.Account;
 const employeeController = require("../controllers/employees.controller");
 
+module.exports.getAccountFromEmployeeID = (req, res, next) => {
+    Account.findOne({
+        attributes: ["id", "username", "password"],
+        where: { employee_id: req.params.id }
+    })
+        .then(result => {
+            res.status(http.OK).json(result);
+        })
+        .catch(err => {
+            if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
+            next(err);
+        })
+}
+
 module.exports.doLogin = (req, res, next) => {
     const username = req.body.username;
     const password = req.body.password;

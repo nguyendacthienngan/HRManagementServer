@@ -16,6 +16,7 @@ const interviewRoute        = require("./routes/interviews.route");
 const candidateInterviewRoute = require("./routes/candidates-interviews.route");
 const teamRoute             = require("./routes/teams.route");
 const scheduleRoute         = require("./routes/teamsschedule.route");
+const calcRoute             = require("./routes/calculator.route");
 
 // Import utils
 const { body } = require("express-validator");
@@ -43,6 +44,8 @@ app.use(api.version + api.objects.event.public.general, publicEventRoute);
 app.use(api.version + api.objects.event.public.interview, interviewRoute);
 
 app.use(api.version + api.objects.relations.candidates_interviews, candidateInterviewRoute);
+
+app.use(api.version + api.objects.calculator    , calcRoute);
 
 app.get("/", function(req,res) {
     res.send("Welcome to this api");

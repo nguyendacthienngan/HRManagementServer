@@ -43,7 +43,9 @@ const apiRoutes =
             employees_localEvents:  "/employees-localevents",
             employees_interviews:   "/employees-interviews",
             candidates_interviews:  "/candidates-interviews"
-        }
+        },
+
+        calculator:     "/calculators"
     },
 
     actions:
@@ -53,7 +55,12 @@ const apiRoutes =
         create:         "/add",
         search:         "/search",
         update:         "/update",
-        delete:         "/delete"
+        delete:         "/delete",
+
+        calculator: 
+        {
+            payroll: "/payroll"
+        }
     }
 }
 
