@@ -13,6 +13,7 @@ const candidateRoute        = require("./routes/candidate.route");
 const eventRoute            = require("./routes/events.route");
 const publicEventRoute      = require("./routes/publicevents.route");
 const localEventRoute       = require("./routes/localevents.route");
+const timeOffRoute          = require("./routes/timeoff.route");
 const interviewRoute        = require("./routes/interviews.route");
 const candidateInterviewRoute = require("./routes/candidates-interviews.route");
 const employeeTeamRoute       = require("./routes/employees-teams.route");
@@ -45,6 +46,7 @@ app.use(api.version + api.objects.event.general , eventRoute);
 app.use(api.version + api.objects.event.public.general, publicEventRoute);
 app.use(api.version + api.objects.event.public.interview, interviewRoute);
 app.use(api.version + api.objects.event.local.general, localEventRoute);
+app.use(api.version + api.objects.event.local.timeOff, timeOffRoute);
 
 app.use(api.version + api.objects.relations.candidates_interviews, candidateInterviewRoute);
 app.use(api.version + api.objects.relations.employees_teams, employeeTeamRoute);
