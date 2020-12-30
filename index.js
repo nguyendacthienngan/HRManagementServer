@@ -14,6 +14,7 @@ const eventRoute            = require("./routes/events.route");
 const publicEventRoute      = require("./routes/publicevents.route");
 const interviewRoute        = require("./routes/interviews.route");
 const candidateInterviewRoute = require("./routes/candidates-interviews.route");
+const employeeTeamRoute       = require("./routes/employees-teams.route");
 const teamRoute             = require("./routes/teams.route");
 const scheduleRoute         = require("./routes/teamsschedule.route");
 const calcRoute             = require("./routes/calculator.route");
@@ -44,6 +45,7 @@ app.use(api.version + api.objects.event.public.general, publicEventRoute);
 app.use(api.version + api.objects.event.public.interview, interviewRoute);
 
 app.use(api.version + api.objects.relations.candidates_interviews, candidateInterviewRoute);
+app.use(api.version + api.objects.relations.employees_teams, employeeTeamRoute);
 
 app.use(api.version + api.objects.calculator    , calcRoute);
 
