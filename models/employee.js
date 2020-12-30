@@ -43,6 +43,7 @@ module.exports = (sequelize, DataTypes) => {
     last_name : DataTypes.STRING, 
     national_id: DataTypes.STRING,
     employ_type: DataTypes.INTEGER,
+    employee_status: DataTypes.INTEGER,
     job_title_id: DataTypes.INTEGER,
     salary_coefficient_id: DataTypes.INTEGER,
     birth_date: DataTypes.DATE,

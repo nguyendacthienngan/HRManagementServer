@@ -2,6 +2,13 @@ const http = require("../utils/http-status");
 const db = require("../models");
 
 module.exports.calcPayroll = (req, res, next) => {
-    const daysPerWeek = 5;
-    const bonus = req.body.bonus;
+    // const bonus = req.body.bonus;
+    // db.IntegerParameter.findOne({
+    //     param_name: "days_per_week"
+    // })
+    // .then(daysPerWeek => {
+    //     db.Employee.findOne({
+
+    //     })
+    // })
 }

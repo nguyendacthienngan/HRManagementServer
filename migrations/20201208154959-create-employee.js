@@ -35,6 +35,10 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: true,
       },
+      employee_status: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+      },
       job_title_id: {
         type: Sequelize.INTEGER,
         allowNull: true,

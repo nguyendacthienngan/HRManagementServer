@@ -51,6 +51,7 @@ module.exports.getAll = (req, res, next) => {
                   first_name: employee.first_name,
                   last_name: employee.last_name,
                   employ_type: employee.employ_type,
+                  employee_status: employee.employee_status,
                   job_title: {
                     id: employee.JobTitle.id,
                     title_name: employee.JobTitle.title_name
@@ -106,6 +107,7 @@ module.exports.getEmployee = (req, res, next) => {
         last_name: employee.last_name,
         national_id: employee.national_id,
         employ_type: employee.employ_type,
+        employee_status: employee.employee_status,
         job_title: {
           id: employee.JobTitle.id,
           title_name: employee.JobTitle.title_name
@@ -192,6 +194,7 @@ module.exports.createEmployee = (req, res, next) => {
   const address = req.body.address;
   const email = req.body.email;
   const contact = req.body.contact_id;
+  const employeeStatus = req.body.employee_status;
 
   Employee.create({
     manager_id: managerId,
@@ -199,6 +202,7 @@ module.exports.createEmployee = (req, res, next) => {
     last_name: lastName,
     national_id: nationalId,
     employ_type: employType,
+    employee_status: employeeStatus,
     job_title_id: jobTitleId,
     salary_coefficient_id: salaryCoeffId,
     birth_date: birthDate,
@@ -247,6 +251,7 @@ module.exports.updateEmployee = (req, res, next) => {
   const address = req.body.address;
   const email = req.body.email;
   const contact = req.body.contact;
+  const employeeStatus = req.body.employee_status;
 
   Employee.findOne({
     // attributes: ["id"],
@@ -263,6 +268,7 @@ module.exports.updateEmployee = (req, res, next) => {
         last_name: lastName,
         national_id: nationalId,
         employ_type: employType,
+        employee_status: employeeStatus,
         job_title_id: jobTitleId,
         salary_coefficient_id: salaryCoeffId,
         birth_date: birthDate,
