@@ -4,7 +4,6 @@ const path = require('path')
 const fs = require('fs')
 const { promisify } = require('util')
 const constants = require('../utils/constants')
-const { storage } = require('../utils/constants')
 
 const readFileAsync = promisify(fs.readFile)
 const writeFileAsync = promisify(fs.writeFile)
@@ -29,10 +28,10 @@ function getFaceDetectorOptions(net) {
         : new faceapi.TinyFaceDetectorOptions({ inputSize, scoreThreshold })
 }
 
-module.exports.init() = async () => {
-    await faceapi.nets.faceRecognitionNet.loadFromDisk('models')
-    await faceapi.nets.faceLandmark68Net.loadFromDisk('models')
-    await faceapi.nets.ssdMobilenetv1.loadFromDisk('models')
+module.exports.init = async () => {
+    await faceapi.nets.faceRecognitionNet.loadFromDisk('weights')
+    await faceapi.nets.faceLandmark68Net.loadFromDisk('weights')
+    await faceapi.nets.ssdMobilenetv1.loadFromDisk('weights')
 }
 
 module.exports.takeSample = async (inputPath) => {

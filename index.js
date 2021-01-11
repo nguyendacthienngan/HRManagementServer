@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require('cors')
 // Import routes
+const faceRecRoute          = require("./routes/facerecognition.route");
 const loginRoute            = require("./routes/login.route");
 const employeesRoute        = require("./routes/employees.route");
 const jobtitlesRoute        = require("./routes/jobtitles.route");
@@ -31,6 +32,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
 
+app.use(api.version + api.objects.faceRecognizer, faceRecRoute);
 app.use(api.version + api.objects.authentication, loginRoute);
 app.use(api.version + api.objects.employee      , employeesRoute);
 app.use(api.version + api.objects.jobTitle      , jobtitlesRoute);
