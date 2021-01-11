@@ -81,15 +81,15 @@ module.exports.createTimeOff = (req, res, next) => {
 module.exports.updateTimeOff = (req, res, next) => {
   TimeOff.findOne({
     include: [{ model: db.LocalEvent, required: true }],
-    where: { id: req.body.interview_id }
+    where: { id: req.body.timeoff_id}
   })
     .then(result => {
-      if (!result || !result.PublicEvent) {
+      if (!result || !result.LocalEvent) {
         return res.status(http.NOTFOUND).json("TimeOff does not exist!");
       }
 
       result.update(
-        { room_id: req.body.room_id }
+        { day_off: req.body.day_off, leave_type: req.body.leave_type_id }
       )
         .then(updatedA => {
           localEventController.updateInternally({
@@ -97,8 +97,6 @@ module.exports.updateTimeOff = (req, res, next) => {
               local_event_id: result.local_event_id,
               event_name: req.body.event_name,
               start_date: req.body.start_date,
-              leave_type: req.body.leave_type_id,
-              day_off: req.body.day_off,
               end_date: req.body.end_date,
               event_status: req.body.event_status,
               announcement: req.body.announcement
@@ -112,7 +110,9 @@ module.exports.updateTimeOff = (req, res, next) => {
                 event_name: updatedB.event_name,
                 start_date: updatedB.start_date,
                 end_date: updatedB.end_date,
-                announcement: updatedB.announcement
+                announcement: updatedB.announcement,
+                day_off: updatedA.day_off,
+                leave_type: updatedA.leave_type
               })
             })
             .catch(err => {
