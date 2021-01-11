@@ -57,6 +57,6 @@ app.get("/", function(req,res) {
     res.send("Welcome to this api");
 });
 
-app.listen(process.env.PORT || 8000, () => {
-    console.log("Listening on port 8000")
+app.listen(process.env.PORT || 8080, () => {
+    console.log("Listening on port 8080")
 })

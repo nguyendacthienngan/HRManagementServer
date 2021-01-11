@@ -45,7 +45,8 @@ const apiRoutes =
             candidates_interviews:  "/candidates-interviews"
         },
 
-        calculator:     "/calculators"
+        calculator:     "/calculators",
+        faceRecognizer: "/recognizer"
     },
 
     actions:
@@ -60,6 +61,12 @@ const apiRoutes =
         calculator: 
         {
             payroll: "/payroll"
+        },
+
+        faceRecognizer:
+        {
+            sample: "/sample",
+            identify: "/identify"
         }
     }
 }
