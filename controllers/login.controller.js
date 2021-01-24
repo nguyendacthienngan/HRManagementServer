@@ -21,7 +21,7 @@ module.exports.doLogin = (req, res, next) => {
     const username = req.body.username;
     const password = req.body.password;
     Account.findOne({
-        attributes: ["id", "username", "password", "employee_id"],
+        attributes: ["id", "username", "password", "role", "employee_id"],
         include: [{ model: db.Employee, required: true }],
         where: {
             username: username,
@@ -39,6 +39,7 @@ module.exports.doLogin = (req, res, next) => {
             const data = {
                 message: "Login successfully",
                 employee_id: result.employee_id,
+                role: result.role,
                 employee_name: result.Employee.first_name + " " + result.Employee.last_name
             }
 

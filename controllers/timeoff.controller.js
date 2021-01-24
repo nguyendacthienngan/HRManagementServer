@@ -1,8 +1,14 @@
 const db = require("../models");
 const sequelize = require("sequelize");
 const TimeOff = db.TimeOff;
+const LEvent = db.LocalEvent;
+const Emp = db.Employee;
 const http = require("../utils/http-status");
 const localEventController = require("./localevents.controller")
+
+module.exports.getIndividualTimeoff = (req, res, next) => {
+  
+}
 
 module.exports.getAll = (req, res, next) => {
   TimeOff.findAll({
@@ -81,7 +87,7 @@ module.exports.createTimeOff = (req, res, next) => {
 module.exports.updateTimeOff = (req, res, next) => {
   TimeOff.findOne({
     include: [{ model: db.LocalEvent, required: true }],
-    where: { id: req.body.timeoff_id}
+    where: { id: req.body.timeoff_id }
   })
     .then(result => {
       if (!result || !result.LocalEvent) {
