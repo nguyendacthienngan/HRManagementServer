@@ -43,7 +43,7 @@ module.exports.doLogin = (req, res, next) => {
                     const data = {
                         message: "Login successfully",
                         employee_id: result.employee_id,
-                        team: r,
+                        team: r.map(t => { return { team_id: t.team_id } }),
                         role: result.role,
                         employee_name: result.Employee.first_name + " " + result.Employee.last_name
                     }
