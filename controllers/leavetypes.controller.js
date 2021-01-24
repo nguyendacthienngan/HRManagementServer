@@ -19,8 +19,9 @@ module.exports.getAll = (req, res, next) => {
 }
 
 module.exports.createLeaveType = (req, res, next) => {
+  console.log(req.body)
   LeaveType.create({
-    title_name: req.body.leave_type_name
+    leave_type_name: req.body.leave_type_name
   })
     .then(jt => {
       res.status(http.CREATED).json(jt);
@@ -34,7 +35,7 @@ module.exports.createLeaveType = (req, res, next) => {
 module.exports.updateLeaveType = (req, res, next) => {
   LeaveType.findOne({
     attributes: ["id"],
-    where: { id: req.body.title_id }
+    where: { id: req.body.leave_type_name}
   })
     .then(jt => {
       if (!jt) {
@@ -42,7 +43,7 @@ module.exports.updateLeaveType = (req, res, next) => {
       }
 
       jt.update(
-        { title_name: req.body.leave_type_name }
+        { leave_type_name: req.body.leave_type_name }
       )
         .then(updatedJt => {
           res.status(http.OK).json(updatedJt);
