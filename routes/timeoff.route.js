@@ -5,7 +5,8 @@ const api = require("../utils/api-routes")
 
 router.get("/", controller.getAll);
 router.get("/:id", controller.getTimeOff);
-router.get(api.actions.search + "/:id", controller.getEmployeeTimeoff);
+router.get(api.actions.search + "/individual/:id", controller.getEmployeeTimeoff);
+router.get(api.actions.search + "/team/:id", controller.getTeamTimeoff);
 
 router.post(api.actions.create, controller.createTimeOff);
 

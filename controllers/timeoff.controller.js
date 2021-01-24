@@ -20,6 +20,41 @@ module.exports.getEmployeeTimeoff = (req, res, next) => {
     })
 }
 
+module.exports.getTeamTimeoff = (req, res, next) => {
+  let query = `SELECT MLE.team_name, MLE.first_name, MLE.last_name, MLE.title_name,
+  MLE.event_name, MLE.start_date, MLE.end_date, MLE.event_status, MLE.announcement,
+  MLE.leave_type, MLE.day_off
+FROM 
+(SELECT *
+  FROM 
+  (SELECT RET.employee_id, TM.team_name, EM.first_name, EM.last_name, JT.title_name
+    FROM "Re_Employee_Teams" AS RET, 
+  "Employees" AS EM,
+  "Teams" AS TM,
+  "JobTitles" AS JT
+    WHERE RET.employee_id=EM.id AND RET.team_id=TM.id AND
+  EM.job_title_id=JT.id AND
+  TM.id=?) AS TEAM_MEM, 
+ "Re_Employee_LocalEvents" AS REL,
+ "LocalEvents" AS LE,
+ "Events" AS EV,
+ "TimeOffs" AS TF
+ WHERE TEAM_MEM.employee_id=REL.employee_id AND
+ REL.local_event_id=LE.id AND
+ LE.event_info_id=EV.id AND
+ TF.local_event_id=REL.local_event_id) AS MLE`
+ sequelize.query(query,
+  { replacements: [req.params.id], type: sequelize.QueryTypes.SELECT })
+  .then(results => {
+    // console.log(results)
+    res.status(http.OK).json(results)
+  })
+  .catch(err => {
+    if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR
+    next(err)
+  }) 
+}
+
 module.exports.getAll = (req, res, next) => {
   TimeOff.findAll({
     include: [
