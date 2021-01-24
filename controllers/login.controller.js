@@ -28,7 +28,7 @@ module.exports.doLogin = (req, res, next) => {
             password: password
         }
     })
-        .then(result => {
+        .then(async result => {
             if (!result) {
                 const authData = {
                     message: "Invalid username or password"
@@ -36,14 +36,24 @@ module.exports.doLogin = (req, res, next) => {
                 return res.status(http.UNAUTHORIZED).json(authData);
             }
 
-            const data = {
-                message: "Login successfully",
-                employee_id: result.employee_id,
-                role: result.role,
-                employee_name: result.Employee.first_name + " " + result.Employee.last_name
-            }
+            db.Re_Employee_Team.findAll({
+                where: { employee_id: result.employee_id }
+            })
+                .then(r => {
+                    const data = {
+                        message: "Login successfully",
+                        employee_id: result.employee_id,
+                        team: r,
+                        role: result.role,
+                        employee_name: result.Employee.first_name + " " + result.Employee.last_name
+                    }
 
-            res.status(http.ACCEPTED).json(data);
+                    res.status(http.ACCEPTED).json(data);
+                })
+                .catch(err => {
+                    if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
+                    next(err);
+                })
         })
         .catch(err => {
             if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
