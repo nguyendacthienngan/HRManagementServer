@@ -58,6 +58,8 @@ const apiRoutes =
         update:         "/update",
         delete:         "/delete",
 
+        confirm:        "/confirm",
+
         calculator: 
         {
             payroll: "/payroll"

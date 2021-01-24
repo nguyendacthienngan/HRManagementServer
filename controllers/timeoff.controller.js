@@ -12,13 +12,17 @@ module.exports.approveTimeoff = (req, res, next) => {
       {
         model: db.LocalEvent,
         required: true
+      },
+      {
+        model: db.Event,
+        required: true
       }
     ],
     where: { id: req.body.time_off_id }
   })
-  .then(tf => {
-
-  })
+    .then(tf => {
+      res.status(http.OK).json(tf)
+    })
 }
 
 module.exports.getEmployeeTimeoff = (req, res, next) => {
@@ -57,16 +61,16 @@ module.exports.getTeamTimeoff = (req, res, next) => {
  REL.local_event_id=LE.id AND
  LE.event_info_id=EV.id AND
  TF.local_event_id=REL.local_event_id`
- sequelize.query(query,
-  { replacements: [req.params.id], type: sequelize.QueryTypes.SELECT })
-  .then(results => {
-    // console.log(results)
-    res.status(http.OK).json(results)
-  })
-  .catch(err => {
-    if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR
-    next(err)
-  }) 
+  sequelize.query(query,
+    { replacements: [req.params.id], type: sequelize.QueryTypes.SELECT })
+    .then(results => {
+      // console.log(results)
+      res.status(http.OK).json(results)
+    })
+    .catch(err => {
+      if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR
+      next(err)
+    })
 }
 
 module.exports.getAll = (req, res, next) => {
@@ -120,6 +124,54 @@ module.exports.getAll = (req, res, next) => {
       if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
       next(err);
     });
+}
+
+module.exports.updateRequestStatus = (req, res, next) => {
+  console.log(req.body.timeoff_id)
+  TimeOff.findOne({
+    where: { id: req.body.timeoff_id },
+  })
+    .then(tmp => {
+      if (tmp) {
+        db.LocalEvent.findOne({
+          where: { id: tmp.local_event_id }
+        })
+          .then(r => {
+            if (r) {
+              db.Event.findOne({
+                where: { id: r.event_info_id }
+              })
+                .then(r2 => {
+                  if (r2) {
+                    r2.update({
+                      event_status: req.body.event_status
+                    })
+                      .then(r3 => {
+                        res.status(http.OK).json(r3)
+                      })
+                      .catch(err => {
+                        if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR
+                        next(err)
+                      })
+                  }
+                })
+                .catch(err => {
+                  if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR
+                  next(err)
+                })
+            }
+          })
+          .catch(err => {
+            if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR
+            next(err)
+          })
+      }
+      else return res.status(http.NOTFOUND).send("Not found")
+    })
+    .catch(err => {
+      if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR
+      next(err)
+    })
 }
 
 module.exports.createTimeOff = (req, res, next) => {

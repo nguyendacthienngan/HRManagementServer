@@ -10,6 +10,7 @@ router.get(api.actions.search + "/team/:id", controller.getTeamTimeoff);
 
 router.post(api.actions.create, controller.createTimeOff);
 
+router.put(api.actions.confirm, controller.updateRequestStatus);
 router.put(api.actions.update, controller.updateTimeOff);
 
 router.delete(api.actions.delete + "/:id", controller.deleteTimeOff);
