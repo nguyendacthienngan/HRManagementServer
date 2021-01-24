@@ -31,6 +31,13 @@ module.exports.getEmployeeTimeoff = (req, res, next) => {
     { replacements: [req.params.id], type: sequelize.QueryTypes.SELECT })
     .then(results => {
       // console.log(results)
+      // const approved = []
+      // const pending = []
+      // results.forEach(r => {
+      //   if (r.event_status === 1) approved.push(r)
+      //   else pending.push(r)
+      // })
+      // res.status(http.OK).json({ approved: approved, pending: pending })
       res.status(http.OK).json(results)
     })
     .catch(err => {
@@ -65,7 +72,14 @@ module.exports.getTeamTimeoff = (req, res, next) => {
     { replacements: [req.params.id], type: sequelize.QueryTypes.SELECT })
     .then(results => {
       // console.log(results)
-      res.status(http.OK).json(results)
+      // res.status(http.OK).json(results)
+      const approved = []
+      const pending = []
+      results.forEach(r => {
+        if (r.event_status === 1) approved.push(r)
+        else pending.push(r)
+      })
+      res.status(http.OK).json({ approved: approved, pending: pending })
     })
     .catch(err => {
       if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR
