@@ -4,6 +4,7 @@ const path = require('path')
 const fs = require('fs')
 const { promisify } = require('util')
 const constants = require('../utils/constants')
+const { storage } = require('../utils/constants')
 
 const readFileAsync = promisify(fs.readFile)
 const writeFileAsync = promisify(fs.writeFile)
@@ -34,19 +35,41 @@ module.exports.init = async () => {
     await faceapi.nets.ssdMobilenetv1.loadFromDisk('weights')
 }
 
-module.exports.takeSample = async (inputPath) => {
+module.exports.takeSample = async (inputPath, author) => {
     const image = await canvas.loadImage(inputPath)
     const sample = await faceapi.detectSingleFace(image, getFaceDetectorOptions(faceDetectionNet))
         .withFaceLandmarks().withFaceDescriptor()
+    const storagePath = constants.storage.faceRecognitionSamples
+    if (author !== undefined)
+        fs.copyFileSync(inputPath, `${storagePath}/${author}.jpeg`)
     return sample
 }
 
-module.exports.match = async (sample) => {
-    const faceMatcher = new faceapi.FaceMatcher(sample)
-    return faceMatcher.findBestMatch(sample.descriptor)
+module.exports.match = async (referencedSample, recognizedSample) => {
+    const faceMatcher = new faceapi.FaceMatcher(referencedSample)
+    return faceMatcher.findBestMatch(recognizedSample.descriptor)
 }
 
 module.exports.storeSample = async (author, sample) => {
-    const storagePath = constants.storage.faceRecognitionSamples;
-    await writeFileAsync(path.join(`${storagePath}/${author}.json`), JSON.stringify(sample))
+    const storagePath = constants.storage.faceRecognitionSamples
+    await writeFileAsync(path.join(`${storagePath}/${author}.json`), JSON.stringify(sample, undefined, 2))
+}
+
+module.exports.loadSample = async (author) => {
+    const storagePath = constants.storage.faceRecognitionSamples
+    const content = await readFileAsync(`${storagePath}/${author}.json`, 'utf8')
+    const sample = JSON.parse(content)
+    console.log(sample.descriptor)
+    return sample.descriptor
+}
+
+module.exports.loadSampleFromImage = async (author) => {
+    const storagePath = constants.storage.faceRecognitionSamples
+    let input = `${storagePath}/${author}.jpeg`
+    const img = await canvas.loadImage(input)
+    const descriptions = []
+    const detections = await faceapi.detectSingleFace(img, getFaceDetectorOptions(faceDetectionNet)).withFaceLandmarks().withFaceDescriptor()
+    descriptions.push(detections.descriptor)
+
+    return new faceapi.LabeledFaceDescriptors(author, descriptions)
 }

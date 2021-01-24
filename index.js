@@ -30,10 +30,11 @@ const api = require("./utils/api-routes");
 const app = express();  
 app.use(cors());
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true}));
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: true}));
 
 app.use(api.version + api.objects.faceRecognizer, faceRecRoute);
+
 app.use(api.version + api.objects.authentication, loginRoute);
 app.use(api.version + api.objects.employee      , employeesRoute);
 app.use(api.version + api.objects.jobTitle      , jobtitlesRoute);
