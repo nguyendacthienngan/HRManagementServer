@@ -1,13 +1,23 @@
 const db = require("../models");
-const sequelize = require("sequelize");
+const { QueryTypes } = require('sequelize');
 const TimeOff = db.TimeOff;
-const LEvent = db.LocalEvent;
-const Emp = db.Employee;
 const http = require("../utils/http-status");
 const localEventController = require("./localevents.controller")
+const details = require("./employees-localevents.controller");
+const { sequelize } = require("../models");
 
-module.exports.getIndividualTimeoff = (req, res, next) => {
-  
+module.exports.getEmployeeTimeoff = (req, res, next) => {
+  let query = `SELECT TF.leave_type, TF.day_off, EV.event_status, EV.announcement, EV.start_date, EV.end_date FROM	"Re_Employee_LocalEvents" as REL, "LocalEvents" as LE, "TimeOffs" as TF, "Events" as EV WHERE 	REL.employee_id=? AND REL.local_event_id=LE.id AND LE.id=TF.local_event_id AND LE.event_info_id=EV.id`
+  sequelize.query(query,
+    { replacements: [req.params.id], type: sequelize.QueryTypes.SELECT })
+    .then(results => {
+      // console.log(results)
+      res.status(http.OK).json(results)
+    })
+    .catch(err => {
+      if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR
+      next(err)
+    })
 }
 
 module.exports.getAll = (req, res, next) => {
@@ -69,10 +79,22 @@ module.exports.createTimeOff = (req, res, next) => {
       TimeOff.create({
         local_event_id: result.id,
         leave_type: req.body.leave_type_id,
-        day_off: req.body.day_off
+        day_off: req.body.day_off,
       })
         .then(r => {
-          res.status(http.CREATED).json(r);
+          let detailReq = {
+            body: [{
+              employee_id: req.body.employee_id,
+              local_event_id: r.local_event_id
+            }]
+          }
+          details.assignRelationsInternally(detailReq)
+            .then(r2 => {
+              res.status(http.CREATED).json(r2);
+            })
+            .catch(err => {
+              next(err);
+            })
         })
         .catch(err => {
           if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR;
