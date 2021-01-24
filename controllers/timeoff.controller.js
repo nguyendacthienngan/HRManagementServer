@@ -6,8 +6,23 @@ const localEventController = require("./localevents.controller")
 const details = require("./employees-localevents.controller");
 const { sequelize } = require("../models");
 
+module.exports.approveTimeoff = (req, res, next) => {
+  TimeOff.findOne({
+    include: [
+      {
+        model: db.LocalEvent,
+        required: true
+      }
+    ],
+    where: { id: req.body.time_off_id }
+  })
+  .then(tf => {
+
+  })
+}
+
 module.exports.getEmployeeTimeoff = (req, res, next) => {
-  let query = `SELECT TF.leave_type, TF.day_off, EV.event_status, EV.announcement, EV.start_date, EV.end_date FROM	"Re_Employee_LocalEvents" as REL, "LocalEvents" as LE, "TimeOffs" as TF, "Events" as EV WHERE 	REL.employee_id=? AND REL.local_event_id=LE.id AND LE.id=TF.local_event_id AND LE.event_info_id=EV.id`
+  let query = `SELECT TF.id AS timeoff_id, TF.leave_type, TF.day_off, EV.event_status, EV.announcement, EV.start_date, EV.end_date FROM	"Re_Employee_LocalEvents" as REL, "LocalEvents" as LE, "TimeOffs" as TF, "Events" as EV WHERE 	REL.employee_id=? AND REL.local_event_id=LE.id AND LE.id=TF.local_event_id AND LE.event_info_id=EV.id`
   sequelize.query(query,
     { replacements: [req.params.id], type: sequelize.QueryTypes.SELECT })
     .then(results => {
@@ -21,11 +36,10 @@ module.exports.getEmployeeTimeoff = (req, res, next) => {
 }
 
 module.exports.getTeamTimeoff = (req, res, next) => {
-  let query = `SELECT MLE.team_name, MLE.first_name, MLE.last_name, MLE.title_name,
-  MLE.event_name, MLE.start_date, MLE.end_date, MLE.event_status, MLE.announcement,
-  MLE.leave_type, MLE.day_off
-FROM 
-(SELECT *
+  let query = `SELECT TF.id AS timeoff_id, 
+  TEAM_MEM.employee_id, TEAM_MEM.team_name, TEAM_MEM.first_name, TEAM_MEM.last_name, TEAM_MEM.title_name,
+   EV.event_name, EV.start_date, EV.end_date, EV.event_status, EV.announcement, 
+  TF.leave_type, TF.day_off
   FROM 
   (SELECT RET.employee_id, TM.team_name, EM.first_name, EM.last_name, JT.title_name
     FROM "Re_Employee_Teams" AS RET, 
@@ -42,7 +56,7 @@ FROM
  WHERE TEAM_MEM.employee_id=REL.employee_id AND
  REL.local_event_id=LE.id AND
  LE.event_info_id=EV.id AND
- TF.local_event_id=REL.local_event_id) AS MLE`
+ TF.local_event_id=REL.local_event_id`
  sequelize.query(query,
   { replacements: [req.params.id], type: sequelize.QueryTypes.SELECT })
   .then(results => {
