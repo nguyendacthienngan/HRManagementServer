@@ -18,6 +18,7 @@ const timeOffRoute          = require("./routes/timeoff.route");
 const interviewRoute        = require("./routes/interviews.route");
 const candidateInterviewRoute = require("./routes/candidates-interviews.route");
 const employeeTeamRoute       = require("./routes/employees-teams.route");
+const employeeLocalEventRoute       = require("./routes/employees-localevents.route");
 const teamRoute             = require("./routes/teams.route");
 const scheduleRoute         = require("./routes/teamsschedule.route");
 const calcRoute             = require("./routes/calculator.route");
@@ -52,6 +53,7 @@ app.use(api.version + api.objects.event.local.timeOff, timeOffRoute);
 
 app.use(api.version + api.objects.relations.candidates_interviews, candidateInterviewRoute);
 app.use(api.version + api.objects.relations.employees_teams, employeeTeamRoute);
+app.use(api.version + api.objects.relations.employees_localEvents, employeeLocalEventRoute);
 
 app.use(api.version + api.objects.calculator    , calcRoute);
 
