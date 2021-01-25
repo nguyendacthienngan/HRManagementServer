@@ -4,6 +4,7 @@ const userController = require("../controllers/candidate.controller")
 const api = require("../utils/api-routes")
 
 router.get("/", userController.getCheckinCandidates);
+router.get(api.actions.search + "/status/:id", userController.getCandidatesWithStatus);
 router.get("/:id", userController.getCandidate);
 // router.get(api.actions.search, userController.getCheckinCandidates);
 

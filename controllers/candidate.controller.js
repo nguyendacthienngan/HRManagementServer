@@ -59,6 +59,55 @@ module.exports.getCheckinCandidates = (req, res, next) => {
     })
 }
 
+module.exports.getCandidatesWithStatus = (req, res, next) => {
+  console.log(req.params.id)
+  db.Re_Interview_Candidate.findAll({
+    include: [
+      {
+        model: db.Interview, required: true
+      },
+      {
+        model: db.Candidate, required: true
+      }
+    ]
+  })
+    .then(r => {
+      const results = []
+      let cnt = 0
+
+      r.forEach(tmp => {
+        interviewController.getFromID(tmp.interview_id)
+          .then(r2 => {
+            results.push({
+              candidate_id: tmp.candidate_id,
+              interview_id: tmp.interview_id,
+              interview: r2,
+              candidate: tmp.Candidate
+            })
+            cnt++
+            if (cnt === r.length) 
+            {
+              const filtered = []
+              results.forEach(re => {
+                if (re.candidate.candidate_state == req.params.id)
+                  filtered.push(re)
+              })
+
+              res.status(http.OK).json(filtered)
+            }
+          })
+          .catch(err => {
+            if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR
+            next(err)
+          })
+      })
+    })
+    .catch(err => {
+      if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR
+      next(err)
+    })
+}
+
 module.exports.getCandidate = (req, res, next) => {
   Candidate.findOne({
     attributes: [
