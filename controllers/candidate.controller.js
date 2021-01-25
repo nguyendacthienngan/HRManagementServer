@@ -2,12 +2,13 @@ const db = require("../models");
 const sequelize = require("sequelize");
 const Candidate = db.Candidate;
 const http = require("../utils/http-status");
+const interviewController = require("../controllers/interviews.controller")
 
 module.exports.getAll = (req, res, next) => {
   Candidate.findAll(
     {
       attributes: ["id", "first_name", "last_name", "email",
-      "candidate_state", "position", "phone_no"],
+        "candidate_state", "position", "phone_no"],
     }
   )
     .then((users) => {
@@ -19,11 +20,50 @@ module.exports.getAll = (req, res, next) => {
     });
 }
 
+module.exports.getCheckinCandidates = (req, res, next) => {
+  db.Re_Interview_Candidate.findAll({
+    include: [
+      {
+        model: db.Interview, required: true
+      },
+      {
+        model: db.Candidate, required: true
+      }
+    ]
+  })
+    .then(r => {
+      const results = []
+      let cnt = 0
+      r.forEach(tmp => {
+        interviewController.getFromID(tmp.interview_id)
+          .then(r2 => {
+            results.push({
+              candidate_id: tmp.candidate_id,
+              interview_id: tmp.interview_id,
+              interview: r2,
+              candidate: tmp.Candidate
+            })
+            cnt++
+            if (cnt === r.length) 
+              res.status(http.OK).json(results)
+          })
+          .catch(err => {
+            if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR
+            next(err)
+          })
+      })
+    })
+    .catch(err => {
+      if (!err.status) err.statusCode = http.INTERNAL_SERVER_ERROR
+      next(err)
+    })
+}
+
 module.exports.getCandidate = (req, res, next) => {
   Candidate.findOne({
     attributes: [
       "id", "first_name", "last_name", "national_id",
-      "employ_type", "position", 
+      "employ_type", "position",
       "birth_date", "gender", "email",
       "candidate_state", "phone_no"
     ],

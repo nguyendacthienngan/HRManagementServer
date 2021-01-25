@@ -126,7 +126,7 @@ module.exports.updateInterview = (req, res, next) => {
     })
 }
 
-module.exports.getFromID = id => {
+module.exports.getFromID = (interview_id) => {
   return new Promise((resolve, reject) => {
     Interview.findOne({
       include: [
@@ -139,7 +139,7 @@ module.exports.getFromID = id => {
           required: true
         }
       ],
-      where: { id: req.params.id }
+      where: { id: interview_id }
     })
       .then(result => {
         if (!result) {

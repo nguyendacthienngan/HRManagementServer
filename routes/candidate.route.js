@@ -3,8 +3,9 @@ const router = express.Router();
 const userController = require("../controllers/candidate.controller")
 const api = require("../utils/api-routes")
 
-router.get("/", userController.getAll);
+router.get("/", userController.getCheckinCandidates);
 router.get("/:id", userController.getCandidate);
+// router.get(api.actions.search, userController.getCheckinCandidates);
 
 router.post(api.actions.create, userController.createCandidate);
 
